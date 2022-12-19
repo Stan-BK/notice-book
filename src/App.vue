@@ -4,12 +4,21 @@ import TodayList from './components/TodayList.vue'
 import TodoList from './components/TodoList.vue'
 import YdayList from './components/YdayList.vue'
 import { getStorage } from './utils/storage'
-import { todoList, todayList, ydayList, NoticeType } from './data'
+import { todoList, todayList, ydayList } from './data'
 
 onMounted(() => {
-  todoList.splice(0, todoList.length, ...getStorage('notice-list-todo-list'))
-  todayList.splice(0, todoList.length, ...getStorage('notice-list-today-list'))
-  ydayList.splice(0, todoList.length, ...getStorage('notice-list-yday-list'))
+  todoList.splice(0, todoList.length, ...(getStorage('notice-list-todo-list').map(notice => {
+    notice.isChosen = false
+    return notice
+  })))
+  todayList.splice(0, todoList.length, ...(getStorage('notice-list-today-list').map(notice => {
+    notice.isChosen = false
+    return notice
+  })))
+  ydayList.splice(0, todoList.length, ...(getStorage('notice-list-yday-list').map(notice => {
+    notice.isChosen = false
+    return notice
+  })))
 })
 </script>
 

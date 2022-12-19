@@ -4,6 +4,7 @@ export interface NoticeType {
   noticeName: string
   description: string
   timestamp: number
+  isChosen: boolean
 }
 
 export const todoList: NoticeType[] = reactive([])

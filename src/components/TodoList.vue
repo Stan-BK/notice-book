@@ -7,7 +7,8 @@ function addNotice() {
   todoList.push({
     noticeName: '待办事项',
     timestamp: 0,
-    description: ''
+    description: '',
+    isChosen: false
   })
 }
 
@@ -39,6 +40,7 @@ function removeNotice() {
 .addition {
   font-size: 2em;
   margin-right: 1em;
+  cursor: pointer;
 }
 
 .addition:hover, .remove:hover {
@@ -47,5 +49,6 @@ function removeNotice() {
 
 .remove {
   font-size: 2em;
+  cursor: pointer;
 }
 </style>
