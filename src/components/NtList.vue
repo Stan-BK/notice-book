@@ -42,6 +42,9 @@ function handleItem(notice: NoticeType) {
 .notice-list {
   padding: 0;
   list-style: none;
+  height: 100%;
+  overflow: auto;
+
   .notice-list-item {
     width: 100%;
     min-height: 50px;

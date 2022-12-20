@@ -8,5 +8,6 @@ export interface NoticeType {
 }
 
 export const todoList: NoticeType[] = reactive([])
+export const tmrList: NoticeType[] = reactive([])
 export const todayList: NoticeType[] = reactive([])
 export const ydayList: NoticeType[] = reactive([])

@@ -2,19 +2,19 @@
 import NtCard from './NtCard.vue'
 </script>
 <template>
-  <nt-card class="YdayList">
+  <nt-card :is-need-port="true" class="YdayList">
     <template #title>Y'day</template>
   </nt-card>
 </template>
 <style scoped>
 .YdayList {
-  width: 40%;
+  width: 100%;
   height: calc(48% - 40px);
   float: right;
   margin-top: calc(4vh);
-  margin-right: 80px;
+  margin-bottom: 40px;
   border-radius: 20px;
   padding: 40px;
-  background: linear-gradient(rgb(var(--card-bg-color)), transparent);
+  background: linear-gradient(rgb(var(--card-bg-color), .4), rgb(var(--card-bg-color)));
 }
 </style>
