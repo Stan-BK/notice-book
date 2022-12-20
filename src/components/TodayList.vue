@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
+import NtList from './NtList.vue'
+import { todayList } from '../data'
+import { toggleItems } from '../libs'
 </script>
 <template>
-  <nt-card :is-need-port="true" class="today-list">
-    <template #title>Today</template>
+  <nt-card
+    :is-need-port="true"
+    class="today-list"
+    @toggle="() => toggleItems(todayList)"
+  >
+    <template #title>
+      Today
+    </template>
+    <div class="notice-list-wrap">
+      <nt-list :notices="todayList" />
+    </div>
   </nt-card>
 </template>
 <style scoped>

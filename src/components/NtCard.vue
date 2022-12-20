@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { NoticeType } from '../data'
+
 defineProps<{
   isNeedPort?: boolean
+}>()
+
+const emits = defineEmits<{
+  (e: 'toggle'): void
 }>()
 </script>
 <template>
@@ -14,6 +20,7 @@ defineProps<{
     <div
       v-if="isNeedPort"
       class="port"
+      @click="() => emits('toggle')"
     >
       TOG
     </div>

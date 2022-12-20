@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
+import NtList from './NtList.vue'
+import { ydayList } from '../data'
+import { toggleItems } from '../libs'
 </script>
 <template>
-  <nt-card :is-need-port="true" class="YdayList">
-    <template #title>Y'day</template>
+  <nt-card
+    :is-need-port="true"
+    class="YdayList"
+    @toggle="() => toggleItems(ydayList)"
+  >
+    <template #title>
+      Y'day
+    </template>
+    <div class="notice-list-wrap">
+      <nt-list :notices="ydayList" />
+    </div>
   </nt-card>
 </template>
 <style scoped>

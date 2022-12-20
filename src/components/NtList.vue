@@ -9,10 +9,14 @@ function handleItem(notice: NoticeType) {
 }
 </script>
 <template>
-  <ul class="notice-list">
+  <TransitionGroup
+    name="list"
+    tag="ul"
+    class="notice-list"
+  >
     <li
-      v-for="notice of props.notices"
-      :key="notice.noticeName"
+      v-for="(notice, index) in props.notices"
+      :key="index"
       class="notice-list-item"
     >
       <div
@@ -36,7 +40,7 @@ function handleItem(notice: NoticeType) {
         class="notice-input timestamp"
       >
     </li>
-  </ul>
+  </TransitionGroup>
 </template>
 <style scoped lang="less">
 .notice-list {
@@ -139,4 +143,15 @@ function handleItem(notice: NoticeType) {
 
   }
 }
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>
