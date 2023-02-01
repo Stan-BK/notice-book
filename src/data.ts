@@ -4,8 +4,9 @@ import { getSWR, setStorage } from './libs'
 export interface NoticeType {
   noticeName: string
   description: string
-  timestamp: number
   isChosen: boolean
+  hour: number
+  minute: number
 }
 
 export const todoList: NoticeType[] = reactive([])

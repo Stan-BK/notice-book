@@ -33,19 +33,22 @@ export function setStorage() {
   localStorage.setItem('todayList', JSON.stringify(toRaw(todayList)))
   localStorage.setItem('tmrList', JSON.stringify(toRaw(tmrList)))
   localStorage.setItem('ydayList', JSON.stringify(toRaw(ydayList)))
+  localStorage.setItem('lastTime', String(Date.now()))
 }
 
 export function getStorage(): {
   todayList: any[],
   todoList: any[],
   tmrList: any[],
-  ydayList: any[]
+  ydayList: any[],
+  lastTime: number
   } {
 
   return {
     todayList: JSON.parse(localStorage.getItem('todayList') ?? '[]'),
     todoList: JSON.parse(localStorage.getItem('todoList') ?? '[]'),
     ydayList: JSON.parse(localStorage.getItem('ydayList') ?? '[]'),
-    tmrList: JSON.parse(localStorage.getItem('tmrList') ?? '[]')
+    tmrList: JSON.parse(localStorage.getItem('tmrList') ?? '[]'),
+    lastTime: parseInt(localStorage.getItem('lastTime')!)
   }
 }

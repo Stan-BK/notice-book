@@ -33,7 +33,7 @@ self.addEventListener('message', (e: NoticeEvent) => {
   const notices = e.data
   noticePool[notices.key] = []
   notices.value.forEach(item => {
-    if (item.timestamp > Date.now()) {
+    if (getTime(item.hour, item.minute) > Date.now()) {
       noticePool[notices.key].push(item)
     }
   })
@@ -51,7 +51,7 @@ self.addEventListener('install', () => {
     }
     const t = Date.now()
     noticePool.todayList.forEach((n, idx) => {
-      if (t >= n.timestamp) {
+      if (t >= getTime(n.hour, n.minute)) {
         self.registration.showNotification('Hello', {
           body: n.noticeName
         })
@@ -60,5 +60,12 @@ self.addEventListener('install', () => {
     })
   }, 1000)
 })
+
+function getTime(hour: number, minute: number) {
+  const date = new Date()
+  date.setHours(hour)
+  date.setMinutes(minute)
+  return date.getTime()
+}
 
 export {}

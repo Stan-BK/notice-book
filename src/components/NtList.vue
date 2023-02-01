@@ -7,6 +7,21 @@ function handleItem(notice: NoticeType) {
   notice.isChosen = !notice.isChosen
   console.log(notice.isChosen)
 }
+
+function validNum(num: number, e: Event) {
+  const tar = e.target as HTMLInputElement
+  const val = parseInt(tar.value)
+  if (val < 0) {
+    tar.value = '0'
+  } else if (val > num) {
+    tar.value = String(num)
+  }
+}
+
+function blur(e: Event) {
+  const tar = e.target as HTMLInputElement
+  tar.value = tar.value.padStart(2, '0')
+}
 </script>
 <template>
   <TransitionGroup
@@ -35,10 +50,23 @@ function handleItem(notice: NoticeType) {
         class="notice-input description"
         style="resize: none;"
       />
-      <input
-        v-model="notice.timestamp"
-        class="notice-input timestamp"
-      >
+      <div class="notice-input timestamp">
+        <input
+          v-model="notice.hour"
+          type="number"
+          min="0"
+          max="23"
+          @input="validNum(23, $event)"
+          @blur="blur"
+        >:<input
+          v-model="notice.minute"
+          type="number"
+          min="0"
+          max="59"
+          @input="validNum(59, $event)"
+          @blur="blur"
+        >
+      </div>
     </li>
   </TransitionGroup>
 </template>
@@ -129,6 +157,18 @@ function handleItem(notice: NoticeType) {
       &.timestamp {
         float: right;
         width: 20%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        input {
+          width: 48%;
+          height: 100%;
+          outline: none;
+          border: none;
+          text-align: center;
+          border-radius: 4px;
+        }
       }
 
       &.description {

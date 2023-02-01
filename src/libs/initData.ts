@@ -1,7 +1,7 @@
 import { getStorage, setStorage } from './'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
 
-type DateList = ReturnType<typeof getStorage>
+type DateList = Omit<ReturnType<typeof getStorage>, 'lastTime'>
 
 const ONE_DAY = 1000 * 60 * 60 * 24
 
@@ -32,14 +32,7 @@ export function initData() {
 }
 
 function validDate(dateList: ReturnType<typeof getStorage>) {
-  let offset = 0
-  if (tmrList.length > 0) {
-    offset = calOffset(tmrList)    
-  } else if (todayList.length > 0) {
-    offset = calOffset(todayList)
-  } else if (ydayList.length > 0) {
-    offset = calOffset(ydayList)
-  }
+  const offset = calOffset(dateList.lastTime)
 
   return modifyDateList(offset, dateList)
 }
@@ -70,10 +63,10 @@ function modifyDateList(offset: number, {
   }
 }
 
-function calOffset(arr: NoticeType[]) {
-  let offset = (Date.now() - arr[0].timestamp) / ONE_DAY
+function calOffset(time: number) {
+  let offset = (Date.now() - time) / ONE_DAY
   if (offset === 0) {
-    offset = new Date().getDate() !== new Date(arr[0].timestamp).getDate() ? 1 : 0
+    offset = new Date().getDate() !== new Date(time).getDate() ? 1 : 0
   }
 
   return offset

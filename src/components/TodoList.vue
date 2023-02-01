@@ -6,9 +6,10 @@ import { todoList } from '../data'
 function addNotice() {
   todoList.push({
     noticeName: '待办事项',
-    timestamp: Date.now() + 10000,
     description: '',
-    isChosen: false
+    isChosen: false,
+    hour: 0,
+    minute: 0
   })
 }
 
@@ -18,10 +19,18 @@ function removeNotice() {
 </script>
 <template>
   <nt-card class="todo-list">
-    <template #title>Todo List</template>
+    <template #title>
+      Todo List
+    </template>
     <template #control-bar>
-      <span class="addition" @click="addNotice">+</span>
-      <span class="remove" @click="removeNotice">-</span>
+      <span
+        class="addition"
+        @click="addNotice"
+      >+</span>
+      <span
+        class="remove"
+        @click="removeNotice"
+      >-</span>
     </template>
     <nt-list :notices="todoList" />
   </nt-card>
