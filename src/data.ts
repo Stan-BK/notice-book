@@ -1,4 +1,5 @@
-import { reactive } from 'vue'
+import { toRaw, reactive, watch } from 'vue'
+import { getSWR } from './libs'
 
 export interface NoticeType {
   noticeName: string
@@ -11,3 +12,20 @@ export const todoList: NoticeType[] = reactive([])
 export const tmrList: NoticeType[] = reactive([])
 export const todayList: NoticeType[] = reactive([])
 export const ydayList: NoticeType[] = reactive([])
+
+watch(tmrList, () => {
+  getSWR().then(swr => {
+    swr.active?.postMessage({
+      key: 'tmrList', 
+      value: toRaw(tmrList)
+    })
+  })
+})
+watch(todayList, () => {
+  getSWR().then(swr => {
+    swr.active?.postMessage({
+      key: 'todayList', 
+      value: toRaw(todayList)
+    })
+  })
+})

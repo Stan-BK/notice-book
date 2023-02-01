@@ -6,7 +6,7 @@ import { todoList } from '../data'
 function addNotice() {
   todoList.push({
     noticeName: '待办事项',
-    timestamp: 0,
+    timestamp: Date.now() + 10000,
     description: '',
     isChosen: false
   })

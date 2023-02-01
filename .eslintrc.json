@@ -44,6 +44,7 @@
         "@typescript-eslint/no-non-null-assertion": "off",
         "vue/no-v-text-v-html-on-component": "off",
         "vue/no-v-html": "off",
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }

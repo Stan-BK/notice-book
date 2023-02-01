@@ -1,4 +1,7 @@
 import { NoticeType, todoList } from '../data'
+export * from './initData'
+export * from './getSWR'
+export * from './notification'
 
 export function toggleItems(targetList: NoticeType[]) {
   const todoChosenList = todoList.reduce((prev: NoticeType[], cur) => cur.isChosen ? prev.concat(cur) : prev, [])
@@ -22,4 +25,23 @@ export function toggleItems(targetList: NoticeType[]) {
   
   todoList.push(...targetChosenList)
   targetList.push(...todoChosenList)
+}
+
+export function setStorage(key: string, value: object) {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+
+export function getStorage(): {
+  todayList: any[],
+  todoList: any[],
+  tmrList: any[],
+  ydayList: any[]
+  } {
+
+  return {
+    todayList: JSON.parse(localStorage.getItem('todayList') ?? '[]'),
+    todoList: JSON.parse(localStorage.getItem('todoList') ?? '[]'),
+    ydayList: JSON.parse(localStorage.getItem('ydayList') ?? '[]'),
+    tmrList: JSON.parse(localStorage.getItem('tmrList') ?? '[]')
+  }
 }
