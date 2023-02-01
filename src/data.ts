@@ -23,6 +23,8 @@ watch(tmrList, () => {
   })
 
   setStorage()
+}, {
+  deep: true
 })
 
 watch(todayList, () => {
@@ -32,8 +34,20 @@ watch(todayList, () => {
       value: toRaw(todayList)
     })
   })
+
+  setStorage()
+}, {
+  deep: true
 })
 
 watch(todoList, () => {
   setStorage()
+}, {
+  deep: true
+})
+
+watch(ydayList, () => {
+  setStorage()
+}, {
+  deep: true
 })
