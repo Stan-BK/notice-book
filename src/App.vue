@@ -3,6 +3,12 @@ import TodayList from './components/TodayList.vue'
 import TmrList from './components/TmrList.vue'
 import TodoList from './components/TodoList.vue'
 import YdayList from './components/YdayList.vue'
+import { onUnmounted } from 'vue'
+import { setStorage } from './libs'
+
+onUnmounted(() => {
+  setStorage()
+})
 </script>
 
 <template>
