@@ -14,7 +14,12 @@ function addNotice() {
 }
 
 function removeNotice() { 
-  console.log(1)
+  for (let i = 0; i < todoList.length;) {
+    if (todoList[i].isChosen) {
+      todoList.splice(i, 1)
+    } else 
+      i++
+  }
 }
 </script>
 <template>
