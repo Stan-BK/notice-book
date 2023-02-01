@@ -1,4 +1,5 @@
-import { NoticeType, todoList } from '../data'
+import { toRaw } from 'vue'
+import { NoticeType, todoList, todayList, ydayList, tmrList } from '../data'
 export * from './initData'
 export * from './getSWR'
 export * from './notification'
@@ -27,8 +28,11 @@ export function toggleItems(targetList: NoticeType[]) {
   targetList.push(...todoChosenList)
 }
 
-export function setStorage(key: string, value: object) {
-  localStorage.setItem(key, JSON.stringify(value))
+export function setStorage() {
+  localStorage.setItem('todoList', JSON.stringify(toRaw(todoList)))
+  localStorage.setItem('todayList', JSON.stringify(toRaw(todayList)))
+  localStorage.setItem('tmrList', JSON.stringify(toRaw(tmrList)))
+  localStorage.setItem('ydayList', JSON.stringify(toRaw(ydayList)))
 }
 
 export function getStorage(): {
