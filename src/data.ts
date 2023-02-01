@@ -1,5 +1,5 @@
 import { toRaw, reactive, watch } from 'vue'
-import { getSWR } from './libs'
+import { getSWR, setStorage } from './libs'
 
 export interface NoticeType {
   noticeName: string
@@ -20,7 +20,10 @@ watch(tmrList, () => {
       value: toRaw(tmrList)
     })
   })
+
+  setStorage()
 })
+
 watch(todayList, () => {
   getSWR().then(swr => {
     swr.active?.postMessage({
@@ -28,4 +31,8 @@ watch(todayList, () => {
       value: toRaw(todayList)
     })
   })
+})
+
+watch(todoList, () => {
+  setStorage()
 })
