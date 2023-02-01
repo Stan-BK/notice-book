@@ -1,13 +1,14 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import { getSWR, initData } from './libs'
+import { getSWR, initData, initNotification } from './libs'
 
 const app = createApp(App)
 
 app.mount('#app')
 
 initData()
+initNotification()
 if (import.meta.env.MODE === 'development') {
   getSWR()
 }
