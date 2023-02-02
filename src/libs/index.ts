@@ -29,11 +29,25 @@ export function toggleItems(targetList: NoticeType[]) {
 }
 
 export function setStorage() {
-  localStorage.setItem('todoList', JSON.stringify(toRaw(todoList)))
-  localStorage.setItem('todayList', JSON.stringify(toRaw(todayList)))
-  localStorage.setItem('tmrList', JSON.stringify(toRaw(tmrList)))
-  localStorage.setItem('ydayList', JSON.stringify(toRaw(ydayList)))
-  localStorage.setItem('lastTime', String(Date.now()))
+  const todo = toRaw(todoList)
+  const today = toRaw(todayList)
+  const tmr = toRaw(tmrList)
+  const yday = toRaw(ydayList)
+  const storage = getStorage()
+
+  if (storage.todoList.toString() !== todo.toString() ||
+      storage.tmrList.toString() !== tmr.toString() ||
+      storage.todayList.toString() !== today.toString() ||
+      storage.ydayList.toString() !== yday.toString()) {
+
+    localStorage.setItem('lastTime', String(Date.now()))
+  }
+
+  localStorage.setItem('todoList', JSON.stringify(todo))
+  localStorage.setItem('todayList', JSON.stringify(today))
+  localStorage.setItem('tmrList', JSON.stringify(tmr))
+  localStorage.setItem('ydayList', JSON.stringify(yday))
+
 }
 
 export function getStorage(): {
