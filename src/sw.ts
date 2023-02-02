@@ -43,7 +43,8 @@ self.addEventListener('install', () => {
 
   setInterval(() => {
     const date = new Date()
-
+    const todayTodo = noticePool.todayList.reduce((prev, cur) => `\n--${prev + cur.noticeName}`, '')
+    console.log(`%cNotice book: There have ${ noticePool.todayList.length } notices wait for posting today. ${ todayTodo }`, 'color: green')
     if (lastDate.getDate() !== date.getDate()) {
       lastDate = date
       noticePool.todayList = noticePool.tmrList
@@ -55,6 +56,7 @@ self.addEventListener('install', () => {
         self.registration.showNotification('Hello', {
           body: n.noticeName
         })
+        console.log('Notice book: \"', n.noticeName, '\"通知已到时效')
         noticePool.todayList.splice(idx, 1)
       }
     })
