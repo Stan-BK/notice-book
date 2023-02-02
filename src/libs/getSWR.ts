@@ -1,4 +1,4 @@
-const SW = import.meta.env.MODE === 'production' ? '/notice-book/sw.ts' : '/src/sw.ts'
+const SW = import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/sw.ts'
 
 export async function getSWR() {
   let swr = await navigator.serviceWorker.getRegistration(SW)
