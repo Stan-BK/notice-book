@@ -18,8 +18,26 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         manifest: {
           name: 'Notice Book',
-          short_name: 'Notice Book',
-          theme_color: '#ffffff'
+          short_name: 'NBook',
+          theme_color: '#ffffff',
+          icons: [
+            {
+              src: 'notice-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: 'notice-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            },
+            {
+              src: 'notice-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable'
+            }
+          ]
         },
       // devOptions: {
       //   enabled: true,
