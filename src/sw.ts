@@ -44,7 +44,7 @@ self.addEventListener('install', () => {
   setInterval(() => {
     const date = new Date()
     const todayTodo = noticePool.todayList.reduce((prev, cur) => `\n--${prev + cur.noticeName}`, '')
-    console.log(`%cNotice book: There have ${ noticePool.todayList.length } notices wait for posting today. ${ todayTodo }`, 'color: green')
+    console.log(`%cNotice book: Today is ${ lastDate.getMonth() + 1 } / ${ lastDate.getDate() } \n There have ${ noticePool.todayList.length } notices wait for posting today: ${ todayTodo }`, 'color: green')
     if (lastDate.getDate() !== date.getDate()) {
       lastDate = date
       noticePool.todayList = noticePool.tmrList
