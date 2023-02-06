@@ -7,13 +7,16 @@ function handleItem(notice: NoticeType) {
   notice.isChosen = !notice.isChosen
 }
 
-function validNum(num: number, e: Event) {
+function validNum(type: 'hour' | 'minute', notice: NoticeType, e: Event) {
+  const num = type === 'hour' ? 23 :  59
   const tar = e.target as HTMLInputElement
   const val = parseInt(tar.value)
   if (val < 0) {
     tar.value = '0'
+    notice[type] = 0
   } else if (val > num) {
     tar.value = String(num)
+    notice[type] = num
   }
 }
 
@@ -55,14 +58,14 @@ function blur(e: Event) {
           type="number"
           min="0"
           max="23"
-          @input="validNum(23, $event)"
+          @input="validNum('hour', notice, $event)"
           @blur="blur"
         >:<input
           v-model="notice.minute"
           type="number"
           min="0"
           max="59"
-          @input="validNum(59, $event)"
+          @input="validNum('minute', notice, $event)"
           @blur="blur"
         >
       </div>
