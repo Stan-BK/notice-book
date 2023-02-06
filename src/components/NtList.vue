@@ -5,7 +5,6 @@ const props = defineProps<{ notices: NoticeType[] }>()
 
 function handleItem(notice: NoticeType) {
   notice.isChosen = !notice.isChosen
-  console.log(notice.isChosen)
 }
 
 function validNum(num: number, e: Event) {
