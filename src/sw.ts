@@ -1,5 +1,6 @@
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
+import { clientsClaim } from 'workbox-core'
 import { NoticeType } from './data'
 
 declare let self: ServiceWorkerGlobalScope
@@ -9,6 +10,9 @@ interface NoticeEvent extends ExtendableMessageEvent {
           value: NoticeType[]
         }
 }
+
+self.skipWaiting()
+clientsClaim()
 
 if (import.meta.env.MODE === 'production') {
   // self.__WB_MANIFEST is default injection point
