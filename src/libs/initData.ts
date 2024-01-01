@@ -1,5 +1,6 @@
-import { getStorage, setStorage } from './'
+import { getSWR, getStorage, setStorage } from './'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
+import { toRaw, watch } from 'vue'
 
 type DateList = Omit<ReturnType<typeof getStorage>, 'lastTime'>
 
@@ -29,6 +30,8 @@ export function initData() {
     notice.isChosen = false
     return notice
   })))
+
+  watchData()
 }
 
 function validDate(dateList: ReturnType<typeof getStorage>) {
@@ -70,4 +73,48 @@ function calOffset(time: number) {
   }
 
   return offset
+}
+
+function watchData() {
+  watch(tmrList, () => {
+    getSWR().then(sw => {
+      sw!.postMessage({
+        key: 'tmrList', 
+        value: toRaw(tmrList)
+      })
+    })
+
+    setStorage()
+  }, {
+    deep: true,
+    immediate: true
+  })
+
+  watch(todayList, () => {
+    getSWR().then(sw => {
+      sw!.postMessage({
+        key: 'todayList', 
+        value: toRaw(todayList)
+      })
+    })
+
+    setStorage()
+  }, {
+    deep: true,
+    immediate: true
+  })
+
+  watch(todoList, () => {
+    setStorage()
+  }, {
+    deep: true,
+    immediate: true
+  })
+
+  watch(ydayList, () => {
+    setStorage()
+  }, {
+    deep: true,
+    immediate: true
+  })
 }
