@@ -10,7 +10,7 @@ export async function SWR() {
   swr = await navigator.serviceWorker.getRegistration(SW) as ServiceWorkerRegistration
 
   if (swr) {
-    swr.unregister()
+    await swr.unregister()
   }
   swr = await navigator.serviceWorker.register(SW, {
     type: 'module'
