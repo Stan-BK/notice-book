@@ -16,6 +16,10 @@ export default defineConfig(({ mode }) => {
         srcDir: 'src',
         filename: 'sw.ts',
         strategies: 'injectManifest',
+        workbox: {
+          clientsClaim: true,
+          skipWaiting: true
+        },
         manifest: {
           name: 'Notice Book',
           short_name: 'NBook',
