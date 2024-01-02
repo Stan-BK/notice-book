@@ -7,6 +7,7 @@ const SW = import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/
 let swr: ServiceWorkerRegistration
 
 export async function getSWR() {
+  swr.active?.postMessage('close')
   return swr.active || swr.installing
 }
 
@@ -14,12 +15,18 @@ export async function SWR() {
   swr = await navigator.serviceWorker.getRegistration(SW) as ServiceWorkerRegistration
   
   if (swr) {
-    await swr.unregister()
+    await unregisterSW()
   }
 
   swr = await navigator.serviceWorker.register(SW, {
-    type: 'module'
+    type: 'module',
+    scope: `./?${Date.now()}`
   }).then(serviceWorkerRegistration => {
     return serviceWorkerRegistration
   })
+}
+
+export async function unregisterSW() {
+  swr.active?.postMessage('close')
+  await swr.unregister()
 }

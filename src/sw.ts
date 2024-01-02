@@ -8,7 +8,7 @@ interface NoticeEvent extends ExtendableMessageEvent {
   data: { 
           key: 'tmrList' | 'todayList',
           value: NoticeType[]
-        }
+        } | 'close'
 }
 
 self.skipWaiting()
@@ -32,20 +32,26 @@ const noticePool: {
   todayList: [],
   tmrList: []
 }
+let interval: number
 
 self.addEventListener('message', (e: NoticeEvent) => {
-  const notices = e.data
-  noticePool[notices.key] = []
-  notices.value.forEach(item => {
-    if (getTime(item.hour, item.minute) > Date.now()) {
-      noticePool[notices.key].push(item)
-    }
-  })
+  if (e.data != 'close') {
+    const notices = e.data
+    noticePool[notices.key] = []
+    notices.value.forEach(item => {
+      if (getTime(item.hour, item.minute) > Date.now()) {
+        noticePool[notices.key].push(item)
+      }
+    })
+  } else {
+    clearInterval(interval)
+  }
 })
+
 self.addEventListener('install', () => {
   let lastDate = new Date()
 
-  setInterval(() => {
+  interval = setInterval(() => {
     const date = new Date()
     const todayTodo = noticePool.todayList.reduce((prev, cur) => `\n--${prev + cur.noticeName}`, '')
     console.log(`%cNotice book: Today is ${ lastDate.getMonth() + 1 } / ${ lastDate.getDate() } \n There have ${ noticePool.todayList.length } notices wait for posting today: ${ todayTodo }`, 'color: green')
