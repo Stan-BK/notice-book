@@ -14,6 +14,9 @@ dependencies:
   workbox-core:
     specifier: ^7.0.0
     version: 7.0.0
+  workbox-window:
+    specifier: ^7.0.0
+    version: 7.0.0
 
 devDependencies:
   '@types/node':
@@ -42,7 +45,7 @@ devDependencies:
     version: 4.0.1(@types/node@18.11.18)(less@4.1.3)
   vite-plugin-pwa:
     specifier: ^0.14.1
-    version: 0.14.1(vite@4.0.1)(workbox-build@6.5.4)(workbox-window@6.5.4)
+    version: 0.14.1(vite@4.0.1)(workbox-build@6.5.4)(workbox-window@7.0.0)
   vue-tsc:
     specifier: ^1.0.11
     version: 1.0.13(typescript@4.9.4)
@@ -1665,7 +1668,6 @@ packages:
 
   /@types/trusted-types@2.0.2:
     resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
-    dev: true
 
   /@typescript-eslint/eslint-plugin@5.46.1(@typescript-eslint/parser@5.46.1)(eslint@8.29.0)(typescript@4.9.4):
     resolution: {integrity: sha512-YpzNv3aayRBwjs4J3oz65eVLXc9xx0PDbIRisHj+dYhvBn02MjYOD96P8YGiWEIFBrojaUjxvkaUpakD82phsA==}
@@ -3831,7 +3833,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite-plugin-pwa@0.14.1(vite@4.0.1)(workbox-build@6.5.4)(workbox-window@6.5.4):
+  /vite-plugin-pwa@0.14.1(vite@4.0.1)(workbox-build@6.5.4)(workbox-window@7.0.0):
     resolution: {integrity: sha512-5zx7yhQ8RTLwV71+GA9YsQQ63ALKG8XXIMqRJDdZkR8ZYftFcRgnzM7wOWmQZ/DATspyhPih5wCdcZnAIsM+mA==}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0
@@ -3845,7 +3847,7 @@ packages:
       rollup: 3.7.4
       vite: 4.0.1(@types/node@18.11.18)(less@4.1.3)
       workbox-build: 6.5.4
-      workbox-window: 6.5.4
+      workbox-window: 7.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4048,7 +4050,6 @@ packages:
 
   /workbox-core@7.0.0:
     resolution: {integrity: sha512-81JkAAZtfVP8darBpfRTovHg8DGAVrKFgHpOArZbdFd78VqHr5Iw65f2guwjE2NlCFbPFDoez3D3/6ZvhI/rwQ==}
-    dev: false
 
   /workbox-expiration@6.5.4:
     resolution: {integrity: sha512-jUP5qPOpH1nXtjGGh1fRBa1wJL2QlIb5mGpct3NzepjGG2uFFBn4iiEBiI9GUmfAFR2ApuRhDydjcRmYXddiEQ==}
@@ -4126,6 +4127,12 @@ packages:
       '@types/trusted-types': 2.0.2
       workbox-core: 6.5.4
     dev: true
+
+  /workbox-window@7.0.0:
+    resolution: {integrity: sha512-j7P/bsAWE/a7sxqTzXo3P2ALb1reTfZdvVp6OJ/uLr/C2kZAMvjeWGm8V4htQhor7DOvYg0sSbFN2+flT5U0qA==}
+    dependencies:
+      '@types/trusted-types': 2.0.2
+      workbox-core: 7.0.0
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}

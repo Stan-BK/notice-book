@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       VitePWA({ 
+        injectRegister: null,
         registerType: 'autoUpdate',
         srcDir: 'src',
         filename: 'sw.ts',

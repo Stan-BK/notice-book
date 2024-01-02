@@ -1,3 +1,7 @@
+import { registerSW } from 'virtual:pwa-register'
+
+const intervalMS = 60 * 60 * 1000
+let firstLoad = true
 const SW = import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/sw.ts'
 
 let swr: ServiceWorkerRegistration
@@ -8,14 +12,14 @@ export async function getSWR() {
 
 export async function SWR() {
   swr = await navigator.serviceWorker.getRegistration(SW) as ServiceWorkerRegistration
-
+  
   if (swr) {
     await swr.unregister()
   }
+
   swr = await navigator.serviceWorker.register(SW, {
     type: 'module'
   }).then(serviceWorkerRegistration => {
     return serviceWorkerRegistration
   })
-  return swr
 }
