@@ -9,12 +9,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 # Allow one concurrent deployment
 concurrency:
   group: "pages"
@@ -40,11 +34,9 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Build Project
         run: pnpm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload entire repository
-          path: './dist'
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          keep_files: true  # 保留之前构建的文件
