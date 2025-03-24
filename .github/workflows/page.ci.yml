@@ -27,11 +27,11 @@ jobs:
       - name: Checkout pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 7.13.5
+          version: latest
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Prepare Environment
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
       - name: Build Project
         run: pnpm run build
       - name: Deploy to GitHub Pages
