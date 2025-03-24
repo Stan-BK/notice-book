@@ -1,8 +1,5 @@
-import { registerSW } from 'virtual:pwa-register'
-
-const intervalMS = 60 * 60 * 1000
-let firstLoad = true
-const SW = import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/sw.ts'
+const SW =
+  import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/sw.ts'
 
 let swr: ServiceWorkerRegistration
 
@@ -12,21 +9,26 @@ export async function getSWR() {
 }
 
 export async function SWR() {
-  swr = await navigator.serviceWorker.getRegistration(SW) as ServiceWorkerRegistration
-  
-  if (swr) {
-    await unregisterSW()
-  }
+  await unregisterSW()
 
-  swr = await navigator.serviceWorker.register(SW, {
-    type: 'module',
-    scope: `./?${Date.now()}`
-  }).then(serviceWorkerRegistration => {
-    return serviceWorkerRegistration
-  })
+  swr = await navigator.serviceWorker
+    .register(SW, {
+      type: 'module',
+      scope: `./sw?${Date.now()}`,
+    })
+    .then((serviceWorkerRegistration) => {
+      return serviceWorkerRegistration
+    })
 }
 
 export async function unregisterSW() {
-  swr.active?.postMessage('close')
-  await swr.unregister()
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  for (const registration of registrations) {
+    if (
+      registration.scope.startsWith('https://stan-bk.github.io/notice-book/sw')
+    ) {
+      registration.active?.postMessage('close')
+      await registration.unregister()
+    }
+  }
 }
