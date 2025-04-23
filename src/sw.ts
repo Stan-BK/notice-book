@@ -37,7 +37,7 @@ let interval: number
 self.addEventListener('message', (e: NoticeEvent) => {
   if (e.data != 'close') {
     const notices = e.data
-    noticePool[notices.key] = []
+    noticePool[notices.key].splice(0)
     notices.value.forEach(item => {
       if (getTime(item.hour, item.minute) > Date.now()) {
         noticePool[notices.key].push(item)
