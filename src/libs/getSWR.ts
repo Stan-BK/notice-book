@@ -24,3 +24,15 @@ export async function SWR() {
         })
   }
 }
+
+export async function unregisterSW() {
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  for (const registration of registrations) {
+    if (
+      registration.scope.includes(SCOPE)
+    ) {
+      registration.active?.postMessage('close')
+      await registration.unregister()
+    }
+  }
+}
