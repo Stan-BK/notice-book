@@ -1,6 +1,4 @@
-import { toRaw, reactive, watch } from 'vue'
-import { getSWR, setStorage } from './libs'
-
+import { reactive } from 'vue'
 export interface NoticeType {
   noticeName: string
   description: string

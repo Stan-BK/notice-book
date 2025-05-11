@@ -1,18 +1,31 @@
-import { getSWR, getStorage, setStorage } from './'
+import { SUBSCRIPTION_PATH, getStorage } from './'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
-import { toRaw, watch } from 'vue'
+import { watch } from 'vue'
 
+const noticeLists = [todoList, todayList, ydayList, tmrList]
+
+const noticePool = new Map<NoticeType[], string>([[todoList, 'all'], [todayList, 'today'], [ydayList, 'yesterday'], [tmrList, 'tomorrow']])
 type DateList = Omit<ReturnType<typeof getStorage>, 'lastTime'>
 
 const ONE_DAY = 1000 * 60 * 60 * 24
 
-export function initData() {
-  const { 
+export async function initData() {
+  const [todoL, todayL, ydayL, tmrL] = await Promise.all(noticeLists.map(async list =>
+    await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`).then(async res => await res.json())
+  ))
+
+  const {
     todoList: todo,
     todayList: today,
     ydayList: yday,
     tmrList: tmr
-  } = validDate(getStorage())
+  } = validDate({
+    todoList: todoL,
+    todayList: todayL,
+    ydayList: ydayL,
+    tmrList: tmrL,
+    lastTime: parseInt(localStorage.getItem('lastTime')!)
+  })
 
   todoList.splice(0, todoList.length, ...(todo.map(notice => {
     notice.isChosen = false
@@ -77,44 +90,36 @@ function calOffset(time: number) {
 
 function watchData() {
   watch(tmrList, () => {
-    getSWR().then(sw => {
-      sw!.postMessage({
-        key: 'tmrList', 
-        value: toRaw(tmrList)
-      })
-    })
-
-    setStorage()
+    updateNoticeList(tmrList)
   }, {
-    deep: true,
-    immediate: true
+    deep: true
   })
 
   watch(todayList, () => {
-    getSWR().then(sw => {
-      sw!.postMessage({
-        key: 'todayList', 
-        value: toRaw(todayList)
-      })
-    })
-
-    setStorage()
+    updateNoticeList(todayList)
   }, {
     deep: true,
-    immediate: true
   })
 
   watch(todoList, () => {
-    setStorage()
+    updateNoticeList(todoList)
   }, {
     deep: true,
-    immediate: true
   })
 
   watch(ydayList, () => {
-    setStorage()
+    updateNoticeList(ydayList)
   }, {
     deep: true,
-    immediate: true
   })
 }
+
+function updateNoticeList(list: NoticeType[]) {
+  fetch(`${SUBSCRIPTION_PATH}/update?type=${noticePool.get(list)}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(list)
+  })
+} 

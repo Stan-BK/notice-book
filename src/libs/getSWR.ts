@@ -1,14 +1,12 @@
 const SW =
   import.meta.env.MODE === 'production' ? '/notice-book/sw.js' : '/src/sw.ts'
-  
+
 const SCOPE = import.meta.env.MODE === 'production' ? '/notice-book/' : '/src/'
 
-let swr: ServiceWorkerRegistration
+export const SUBSCRIPTION_PATH = 'https://notice.geminikspace.com/worker'
 
-export async function getSWR() {
-  await SWR()
-  return swr.active || swr.installing
-}
+let swr: ServiceWorkerRegistration
+let temporaryId: number | null
 
 export async function SWR() {
   try {
@@ -16,23 +14,40 @@ export async function SWR() {
   } catch (e) {
     console.error('Service worker registration failed:', e)
   } finally {
-    if (!swr) 
-      swr = await navigator.serviceWorker
+    if (!swr)
+      await navigator.serviceWorker
         .register(SW, {
           type: 'module',
           scope: SCOPE,
+        }).then((registration) => {
+          swr = registration
+          
+          subscribe().catch((e) => {
+            console.error('Service worker registration failed:', e)
+          })
         })
   }
 }
 
-export async function unregisterSW() {
-  const registrations = await navigator.serviceWorker.getRegistrations()
-  for (const registration of registrations) {
-    if (
-      registration.scope.includes(SCOPE)
-    ) {
-      registration.active?.postMessage('close')
-      await registration.unregister()
-    }
-  }
+export async function subscribe() {
+  const publicKey = await generateVAPIDKeys()
+
+  swr.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: publicKey,
+  }).then((sub) => {
+    fetch(SUBSCRIPTION_PATH + '/subscribe', {
+      method: 'POST',
+      body: JSON.stringify({
+        temporaryId,
+        subscription: sub,
+      }),
+    })
+  })
+}
+
+async function generateVAPIDKeys() {
+  return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', { body: JSON.stringify(temporaryId = Date.now()), method: 'POST' }).then((res) => {
+    return res.json()
+  })
 }
