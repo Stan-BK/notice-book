@@ -1,7 +1,7 @@
 const SW =
   import.meta.env.MODE === 'production' ? '/sw.js' : '/src/sw.ts'
 
-const SCOPE = import.meta.env.MODE === 'production' ? '/notice-book/' : '/src/'
+const SCOPE = import.meta.env.MODE === 'production' ? '/' : '/src/'
 
 export const SUBSCRIPTION_PATH = 'https://notice.geminikspace.com/worker'
 
