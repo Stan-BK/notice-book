@@ -9,7 +9,7 @@ let swr: ServiceWorkerRegistration
 let temporaryId: number | null
 export let endPoint: string | null
 
-export async function SWR() {
+export async function SWR(): Promise<void> {
   swr = (await navigator.serviceWorker.getRegistration(SW))!
 
   if (!swr)
@@ -17,20 +17,23 @@ export async function SWR() {
       .register(SW, {
         type: 'module',
         scope: SCOPE,
-      }).then((registration) => {
+      }).then(async (registration) => {
         swr = registration
 
-        subscribe().catch((e) => {
+        return await subscribe().catch((e) => {
           console.error('Service worker registration failed:', e)
         })
       })
   else {
     swr.active!.postMessage({ type: 'get_subscription' })
-    onmessage = (event) => {
-      if (event.data && event.data.type === 'get_subscription') {
-        endPoint = event.data.subscription.endpoint
+    return new Promise((resolve) => {
+      onmessage = (event) => {
+        if (event.data && event.data.type === 'get_subscription') {
+          endPoint = event.data.subscription.endpoint
+        }
+        resolve()
       }
-    }
+    })
   }
 }
 
