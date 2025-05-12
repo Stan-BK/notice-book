@@ -40,10 +40,10 @@ export async function SWR(): Promise<void> {
 export async function subscribe() {
   const publicKey = await generateVAPIDKeys()
 
-  swr.pushManager.subscribe({
+  return swr.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: publicKey,
-  }).then((sub) => {
+  }).then(async (sub) => 
     fetch(SUBSCRIPTION_PATH + '/subscribe', {
       method: 'POST',
       body: JSON.stringify({
@@ -57,7 +57,7 @@ export async function subscribe() {
         subscription: sub,
       })
     })
-  })
+  )
 }
 
 async function generateVAPIDKeys() {
