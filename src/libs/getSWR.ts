@@ -7,7 +7,7 @@ export const SUBSCRIPTION_PATH = 'https://notice.geminikspace.com/worker'
 
 let swr: ServiceWorkerRegistration
 let temporaryId: number | null
-export let endPoint: string | null
+export let endpoint: string | null
 
 export async function SWR(): Promise<void> {
   swr = (await navigator.serviceWorker.getRegistration(SW))!
@@ -27,12 +27,12 @@ export async function SWR(): Promise<void> {
   else {
     return new Promise((resolve) => {
       onmessage = (event) => {
-        if (event.data && event.data.type === 'get_subscription') {
-          endPoint = event.data.subscription.endpoint
+        if (event.data && event.data.type === 'get_endpoint') {
+          endpoint = event.data.subscription.endpoint
         }
         resolve()
       }
-      swr.active!.postMessage({ type: 'get_subscription' })
+      swr.active!.postMessage({ type: 'get_endpoint' })
     })
   }
 }
@@ -51,10 +51,10 @@ export async function subscribe() {
         subscription: sub,
       }),
     }).then(() => {
-      endPoint = sub.endpoint
+      endpoint = sub.endpoint
       ;(swr.installing || swr.active)!.postMessage({
-        type: 'setup_subscription',
-        subscription: sub,
+        type: 'setup_endpoint',
+        endpoint: sub.endpoint,
       })
     })
   )

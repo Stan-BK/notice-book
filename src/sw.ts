@@ -5,17 +5,17 @@ import { NoticeType } from './data'
 
 declare let self: ServiceWorkerGlobalScope
 
-let subscription: PushSubscription | null
+let endpoint: string | null
 self.skipWaiting()
 clientsClaim()
 
 if (import.meta.env.MODE === 'production') {
   // self.__WB_MANIFEST is default injection point
   precacheAndRoute(self.__WB_MANIFEST)
-  
+
   // clean old assets
   cleanupOutdatedCaches()
-  
+
   // to allow work offline
   registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')))
 }
@@ -33,15 +33,15 @@ self.addEventListener('push', (event) => {
 })
 
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'setup_subscription') {
-    subscription = event.data.subscription
+  if (event.data && event.data.type === 'setup_endpoint') {
+    endpoint = event.data.endpoint
   }
-  if (event.data && event.data.type === 'get_subscription') {
+  if (event.data && event.data.type === 'get_endpoint') {
     event.source!.postMessage({
-      type: 'get_subscription',
-      subscription
+      type: 'get_endpoint',
+      endpoint
     })
   }
 })
 
-export {}
+export { }

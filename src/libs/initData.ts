@@ -1,4 +1,4 @@
-import { SUBSCRIPTION_PATH, endPoint } from './'
+import { SUBSCRIPTION_PATH, endpoint } from './'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
 import { watch } from 'vue'
 
@@ -11,7 +11,7 @@ export async function initData() {
     await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`, {
       method: 'POST',
       body: JSON.stringify({
-        endPoint
+        endPoint: endpoint
       }),
     }).then(async res => await res.json() as NoticeType[])
   ))
@@ -69,7 +69,7 @@ function updateNoticeList(list: NoticeType[]) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      endPoint,
+      endPoint: endpoint,
       noticeList: list
     })
   })
