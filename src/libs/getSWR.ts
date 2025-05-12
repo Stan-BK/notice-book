@@ -25,7 +25,6 @@ export async function SWR(): Promise<void> {
         })
       })
   else {
-    swr.active!.postMessage({ type: 'get_subscription' })
     return new Promise((resolve) => {
       onmessage = (event) => {
         if (event.data && event.data.type === 'get_subscription') {
@@ -33,6 +32,7 @@ export async function SWR(): Promise<void> {
         }
         resolve()
       }
+      swr.active!.postMessage({ type: 'get_subscription' })
     })
   }
 }
