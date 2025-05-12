@@ -13,7 +13,7 @@ export async function initData() {
       body: JSON.stringify({
         endPoint: endpoint
       }),
-    }).then(async res => await res.json() as NoticeType[])
+    }).then(res => res.json()) as NoticeType[]
   ))
 
   todoList.splice(0, todoList.length, ...(todoL.map(notice => {

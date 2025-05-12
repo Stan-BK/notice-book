@@ -26,12 +26,12 @@ export async function SWR(): Promise<void> {
       })
   else {
     return new Promise((resolve) => {
-      onmessage = (event) => {
+      navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'get_endpoint') {
-          endpoint = event.data.subscription.endpoint
+          endpoint = event.data.endpoint
         }
         resolve()
-      }
+      })
       swr.active!.postMessage({ type: 'get_endpoint' })
     })
   }
