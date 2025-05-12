@@ -37,7 +37,7 @@ self.addEventListener('message', (event) => {
     subscription = event.data.subscription
   }
   if (event.data && event.data.type === 'get_subscription') {
-    postMessage({
+    event.ports[0].postMessage({
       type: 'get_subscription',
       subscription
     })

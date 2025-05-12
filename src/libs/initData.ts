@@ -12,6 +12,7 @@ const ONE_DAY = 1000 * 60 * 60 * 24
 export async function initData() {
   const [todoL, todayL, ydayL, tmrL] = await Promise.all(noticeLists.map(async list =>
     await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`, {
+      method: 'POST',
       body: JSON.stringify({
         endPoint
       }),
