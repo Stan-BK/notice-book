@@ -62,6 +62,6 @@ export async function subscribe() {
 
 async function generateVAPIDKeys() {
   return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', { body: JSON.stringify(temporaryId = Date.now()), method: 'POST' }).then(async (res) =>
-    await res.json()
+    await res.text()
   )
 }
