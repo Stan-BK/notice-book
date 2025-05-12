@@ -5,6 +5,7 @@ import { NoticeType } from './data'
 
 declare let self: ServiceWorkerGlobalScope
 
+let subscription: PushSubscription | null
 self.skipWaiting()
 clientsClaim()
 
@@ -28,6 +29,18 @@ self.addEventListener('push', (event) => {
         body: description,
       })
     )
+  }
+})
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'setup_subscription') {
+    subscription = event.data.subscription
+  }
+  if (event.data && event.data.type === 'get_subscription') {
+    postMessage({
+      type: 'get_subscription',
+      subscription
+    })
   }
 })
 

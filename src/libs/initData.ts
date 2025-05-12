@@ -1,4 +1,4 @@
-import { SUBSCRIPTION_PATH, getStorage } from './'
+import { SUBSCRIPTION_PATH, endPoint, getStorage } from './'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
 import { watch } from 'vue'
 
@@ -11,7 +11,11 @@ const ONE_DAY = 1000 * 60 * 60 * 24
 
 export async function initData() {
   const [todoL, todayL, ydayL, tmrL] = await Promise.all(noticeLists.map(async list =>
-    await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`).then(async res => await res.json())
+    await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`, {
+      body: JSON.stringify({
+        endPoint
+      }),
+    }).then(async res => await res.json())
   ))
 
   const {
@@ -120,6 +124,9 @@ function updateNoticeList(list: NoticeType[]) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(list)
+    body: JSON.stringify({
+      endPoint,
+      noticeList: list
+    })
   })
 } 

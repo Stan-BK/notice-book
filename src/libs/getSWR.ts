@@ -7,10 +7,17 @@ export const SUBSCRIPTION_PATH = 'https://notice.geminikspace.com/worker'
 
 let swr: ServiceWorkerRegistration
 let temporaryId: number | null
+export let endPoint: string | null
 
 export async function SWR() {
   try {
     swr = (await navigator.serviceWorker.getRegistration(SW))!
+    swr.active!.postMessage({ type: 'get_subscription' })
+    onmessage = (event) => {
+      if (event.data && event.data.type === 'get_subscription') {
+        endPoint = event.data.subscription.endpoint
+      }
+    }
   } catch (e) {
     console.error('Service worker registration failed:', e)
   } finally {
@@ -21,7 +28,7 @@ export async function SWR() {
           scope: SCOPE,
         }).then((registration) => {
           swr = registration
-          
+
           subscribe().catch((e) => {
             console.error('Service worker registration failed:', e)
           })
@@ -42,12 +49,17 @@ export async function subscribe() {
         temporaryId,
         subscription: sub,
       }),
+    }).then(() => {
+      (swr.installing || swr.active)!.postMessage({
+        type: 'setup_subscription',
+        subscription: sub,
+      })
     })
   })
 }
 
 async function generateVAPIDKeys() {
-  return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', { body: JSON.stringify(temporaryId = Date.now()), method: 'POST' }).then((res) => {
-    return res.json()
-  })
+  return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', { body: JSON.stringify(temporaryId = Date.now()), method: 'POST' }).then(async (res) =>
+    await res.json()
+  )
 }
