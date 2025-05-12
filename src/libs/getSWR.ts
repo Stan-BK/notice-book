@@ -48,7 +48,8 @@ export async function subscribe() {
         subscription: sub,
       }),
     }).then(() => {
-      (swr.installing || swr.active)!.postMessage({
+      endPoint = sub.endpoint
+      ;(swr.installing || swr.active)!.postMessage({
         type: 'setup_subscription',
         subscription: sub,
       })
