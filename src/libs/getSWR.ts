@@ -25,15 +25,7 @@ export async function SWR(): Promise<void> {
         })
       })
   else {
-    return new Promise((resolve) => {
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'get_endpoint') {
-          endpoint = event.data.endpoint
-        }
-        resolve()
-      })
-      swr.active!.postMessage({ type: 'get_endpoint' })
-    })
+    getEndpointFromStorage()
   }
 }
 
@@ -43,7 +35,7 @@ export async function subscribe() {
   return swr.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: publicKey,
-  }).then(async (sub) => 
+  }).then(async (sub) =>
     fetch(SUBSCRIPTION_PATH + '/subscribe', {
       method: 'POST',
       body: JSON.stringify({
@@ -52,10 +44,7 @@ export async function subscribe() {
       }),
     }).then(() => {
       endpoint = sub.endpoint
-      ;(swr.installing || swr.active)!.postMessage({
-        type: 'setup_endpoint',
-        endpoint: sub.endpoint,
-      })
+      setEndpointToStorage()
     })
   )
 }
@@ -66,6 +55,14 @@ async function generateVAPIDKeys() {
   )
 }
 
+function getEndpointFromStorage() {
+  endpoint = localStorage.getItem('endpoint')
+}
+
+function setEndpointToStorage() {
+  localStorage.setItem('endpoint', endpoint!)
+}
+
 // This function is needed because Chrome doesn't accept a base64 encoded string
 // as value for applicationServerKey in pushManager.subscribe yet
 // https://bugs.chromium.org/p/chromium/issues/detail?id=802280
@@ -74,10 +71,10 @@ function urlBase64ToUint8Array(base64String: string) {
   const base64 = (base64String + padding)
     .replace(/\-/g, '+')
     .replace(/_/g, '/')
- 
+
   const rawData = window.atob(base64)
   const outputArray = new Uint8Array(rawData.length)
- 
+
   for (let i = 0; i < rawData.length; ++i) {
     outputArray[i] = rawData.charCodeAt(i)
   }
