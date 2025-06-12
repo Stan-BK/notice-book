@@ -3,7 +3,7 @@ const SW =
 
 const SCOPE = import.meta.env.MODE === 'production' ? '/' : '/src/'
 
-export const SUBSCRIPTION_PATH = 'https://notice.geminikspace.com/worker'
+export const SUBSCRIPTION_PATH = import.meta.env.VITE_SUBSCRIPTION_PATH ?? ''
 
 let swr: ServiceWorkerRegistration
 let temporaryId: number | null
