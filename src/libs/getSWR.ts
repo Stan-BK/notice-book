@@ -1,3 +1,5 @@
+import { ref } from "vue"
+
 const SW =
   import.meta.env.MODE === 'production' ? '/sw.js' : '/src/sw.ts'
 
@@ -8,25 +10,42 @@ export const SUBSCRIPTION_PATH = import.meta.env.VITE_SUBSCRIPTION_PATH ?? ''
 let swr: ServiceWorkerRegistration
 let temporaryId: number | null
 export let endpoint: string | null
+export const isInstalled = ref(false)
+export const isOperating = ref(false)
 
 export async function SWR(): Promise<void> {
   swr = (await navigator.serviceWorker.getRegistration(SW))!
 
-  if (!swr)
-    await navigator.serviceWorker
-      .register(SW, {
-        type: 'module',
-        scope: SCOPE,
-      }).then(async (registration) => {
-        swr = registration
-
-        return await subscribe().catch((e) => {
-          console.error('Service worker registration failed:', e)
-        })
-      })
+  if (!swr) {
+    initSW()
+  }
   else {
     getEndpointFromStorage()
+    isInstalled.value = true
   }
+}
+
+export async function initSW() {
+  const confirmSubscription = confirm("Do u want to Subscribe offline push?")
+  if (!confirmSubscription) {
+    return
+  }
+
+  isOperating.value = true
+
+  await navigator.serviceWorker
+    .register(SW, {
+      type: 'module',
+      scope: SCOPE,
+    }).then(async (registration) => {
+      swr = registration
+
+      return await subscribe().catch((e) => {
+        console.error('Service worker registration failed:', e)
+      })
+    }).finally(() => {
+      isOperating.value = false
+    })
 }
 
 export async function subscribe() {
@@ -45,8 +64,32 @@ export async function subscribe() {
     }).then(() => {
       endpoint = sub.endpoint
       setEndpointToStorage()
+
+      isInstalled.value = true
     })
   )
+}
+
+export async function unsubscribe() {
+  const confirmUnsubscribe = confirm("Do u want to Unsubscribe offline push?")
+  if (!confirmUnsubscribe) {
+    return
+  }
+  isOperating.value = true
+
+  return swr.pushManager.getSubscription().then((sub) =>
+    fetch(SUBSCRIPTION_PATH + '/unsubscribe', {
+      method: 'POST',
+      body: JSON.stringify({
+        endpoint: sub?.endpoint,
+      }),
+    }).then(() => {
+      endpoint = null
+      setEndpointToStorage()
+
+      isInstalled.value = false
+    })
+  ).finally(() => isOperating.value = false)
 }
 
 async function generateVAPIDKeys() {
