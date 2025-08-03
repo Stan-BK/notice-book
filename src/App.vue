@@ -1,12 +1,32 @@
 <script setup lang="ts">
-import { initSW, isInstalled, isOperating, unsubscribe } from "./libs/getSWR";
+import { initServiceWorker, isInstalled, isOperating, unsubscribe } from "./src/subscription";
 import TodayList from "./components/TodayList.vue";
 import TmrList from "./components/TmrList.vue";
 import TodoList from "./components/TodoList.vue";
 import YdayList from "./components/YdayList.vue";
 </script>
 
-<template>
+<template><PButton variant="primary" @click="handleOpen">Open Modal</PButton>
+
+  <PModal
+    v-model="isVisible"
+    title="Create Token"
+    subtitle="Enter a unique name for your token to differentiate it from other tokens and then select the scope."
+    @click-outside="handleClose"
+  >
+    <PText> Some content contained within the modal. </PText>
+
+    <template #footer>
+      <PButton @click="handleClose">
+        Cancel
+      </PButton>
+
+      <PButton variant="primary" @click="handleClose">
+        Submit
+      </PButton>
+    </template>
+  </PModal>
+
   <header
     :style="{
       pointerEvents: isOperating ? 'none' : 'auto',

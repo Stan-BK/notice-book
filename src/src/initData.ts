@@ -1,4 +1,4 @@
-import { SUBSCRIPTION_PATH, endpoint } from './'
+import { SUBSCRIPTION_PATH, endpoint } from '.'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
 import { watch } from 'vue'
 

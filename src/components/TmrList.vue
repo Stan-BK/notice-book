@@ -2,7 +2,7 @@
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
 import { tmrList } from '../data'
-import { toggleItems } from '../libs'
+import { toggleItems } from '../src'
 
 </script>
 <template>

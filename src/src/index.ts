@@ -1,6 +1,6 @@
 import { NoticeType, todoList } from '../data'
 export * from './initData'
-export * from './getSWR'
+export * from './subscription'
 export * from './notification'
 
 export function toggleItems(targetList: NoticeType[]) {
