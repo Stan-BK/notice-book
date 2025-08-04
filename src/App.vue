@@ -6,27 +6,7 @@ import TodoList from "./components/TodoList.vue";
 import YdayList from "./components/YdayList.vue";
 </script>
 
-<template><PButton variant="primary" @click="handleOpen">Open Modal</PButton>
-
-  <PModal
-    v-model="isVisible"
-    title="Create Token"
-    subtitle="Enter a unique name for your token to differentiate it from other tokens and then select the scope."
-    @click-outside="handleClose"
-  >
-    <PText> Some content contained within the modal. </PText>
-
-    <template #footer>
-      <PButton @click="handleClose">
-        Cancel
-      </PButton>
-
-      <PButton variant="primary" @click="handleClose">
-        Submit
-      </PButton>
-    </template>
-  </PModal>
-
+<template>
   <header
     :style="{
       pointerEvents: isOperating ? 'none' : 'auto',
@@ -37,7 +17,7 @@ import YdayList from "./components/YdayList.vue";
         color: isInstalled ? '#42b983' : '#ff4949',
         opacity: isOperating ? 0.2 : 1,
       }"
-      @click="isInstalled ? unsubscribe() : initSW()"
+      @click="isInstalled ? unsubscribe() : initServiceWorker()"
     >
       {{ isInstalled ? "Actived" : "Inactived" }}
     </button>
