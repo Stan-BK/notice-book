@@ -6,35 +6,44 @@ const SCOPE = import.meta.env.MODE === "production" ? "/" : "/src/";
 
 export const SUBSCRIPTION_PATH = import.meta.env.VITE_SUBSCRIPTION_PATH ?? "";
 
-let swr: ServiceWorkerRegistration;
+let swr: ServiceWorkerRegistration | undefined;
 let temporaryId: number;
 export let endpoint: string | null;
 export const isInstalled = ref(false);
 export const isOperating = ref(false);
 
-export async function SWR(): Promise<void> {
-  swr = (await navigator.serviceWorker.getRegistration(SW))!;
+// Process:
+// 1. `checkSubscription`
+// 2. if not installed, `registerServiceWorker`
+// 3. if installed, `initPushManager`
+// 4. if not subscribed, `subscribe`
+// 5. if subscribed, `getEndpointFromStorage`
 
+export async function checkSubscription() {
+  swr = await navigator.serviceWorker.getRegistration(SW);
+  return !!swr
+}
+
+export async function initServiceWorker(): Promise<void> {
   if (!swr) {
-    initServiceWorker();
+    await registerServiceWorker();
   } else {
-    const sub = await swr.pushManager.getSubscription();
+    await initPushManager()
+  }
+}
+
+async function initPushManager() {
+    const sub = await swr!.pushManager.getSubscription();
 
     if (sub) {
       getEndpointFromStorage();
       isInstalled.value = true;
     } else {
-      subscribe();
+      await subscribe();
     }
-  }
 }
 
-export async function initServiceWorker() {
-  const confirmSubscription = confirm("Do u want to Subscribe offline push?");
-  if (!confirmSubscription) {
-    return;
-  }
-
+export async function registerServiceWorker() {
   isOperating.value = true;
 
   await navigator.serviceWorker
@@ -45,9 +54,7 @@ export async function initServiceWorker() {
     .then(async (registration) => {
       swr = registration;
 
-      return await subscribe().catch((e) => {
-        console.error("Service worker registration failed:", e);
-      });
+      return await subscribe()
     })
     .finally(() => {
       isOperating.value = false;
@@ -57,7 +64,7 @@ export async function initServiceWorker() {
 export async function subscribe() {
   const publicKey = urlBase64ToUint8Array(await generateVAPIDKeys());
 
-  return swr.pushManager
+  return swr!.pushManager
     .subscribe({
       userVisibleOnly: true,
       applicationServerKey: publicKey,
@@ -79,13 +86,9 @@ export async function subscribe() {
 }
 
 export async function unsubscribe() {
-  const confirmUnsubscribe = confirm("Do u want to Unsubscribe offline push?");
-  if (!confirmUnsubscribe) {
-    return;
-  }
   isOperating.value = true;
 
-  return swr.pushManager
+  return swr!.pushManager
     .getSubscription()
     .then((sub) =>
       fetch(SUBSCRIPTION_PATH + "/unsubscribe", {

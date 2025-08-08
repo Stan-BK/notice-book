@@ -1,9 +1,40 @@
 <script setup lang="ts">
-import { initServiceWorker, isInstalled, isOperating, unsubscribe } from "./src/subscription";
+import { registerServiceWorker, isInstalled, isOperating, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
 import TodayList from "./components/TodayList.vue";
 import TmrList from "./components/TmrList.vue";
 import TodoList from "./components/TodoList.vue";
 import YdayList from "./components/YdayList.vue";
+import { onMounted } from "vue";
+import { ref } from 'vue'
+import { initData, initNotification } from "./src";
+
+async function init() {
+  initData()
+  initNotification()
+}
+
+const isVisible = ref(false)
+
+async function handleConfirm() {
+  if (!isInstalled.value) {
+    await initServiceWorker()
+  } else {
+    await unsubscribe()
+  }
+  init()
+  handleClose()
+}
+
+function handleClose() {
+  isVisible.value = false
+}
+
+onMounted(async () => {
+  const isSubscribed = await checkSubscription()
+  if (!isSubscribed) {
+    isVisible.value = true
+  }
+})
 </script>
 
 <template>
@@ -17,7 +48,7 @@ import YdayList from "./components/YdayList.vue";
         color: isInstalled ? '#42b983' : '#ff4949',
         opacity: isOperating ? 0.2 : 1,
       }"
-      @click="isInstalled ? unsubscribe() : initServiceWorker()"
+      @click="isVisible = true"
     >
       {{ isInstalled ? "Actived" : "Inactived" }}
     </button>
@@ -37,8 +68,29 @@ import YdayList from "./components/YdayList.vue";
       <yday-list />
     </div>
   </div>
-</template>
+  <PModal
+    v-model="isVisible"
+    title="Subscription"
+    header-style
+  >
+    <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
+    <template #footer>
+      <PButton @click="handleClose">
+        Cancel
+      </PButton>
+
+      <PButton variant="primary" @click="handleConfirm">
+        Confirm
+      </PButton>
+    </template>
+  </PModal>
+</template>
+<style>
+h3 {
+  margin: 0 !important;
+}
+</style>
 <style scoped lang="less">
 header {
   position: fixed;

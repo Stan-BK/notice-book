@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="a notice book with PWA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/notice-192x192.png" sizes="192x192" />
+    <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF" />
+    <title>Notice Book</title>
+    <script>
+      (function () {
+        if (typeof window === "undefined") return;
+        let p = matchMedia("(prefers-color-scheme:dark)").matches;
+        let s = localStorage.getItem("fe.system.color-scheme") || "auto";
+        if (s === "dark" || (p && s === "auto")) {
+          document.documentElement.classList.toggle("dark", true);
+        }
+      })();
+    </script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="description" content="a notice book with PWA">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/notice-192x192.png" sizes="192x192">
-  <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF">
-  <title>Notice Book</title>
-</head>
-
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
