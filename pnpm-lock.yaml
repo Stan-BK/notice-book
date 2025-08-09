@@ -12,8 +12,8 @@ importers:
         specifier: ^4.1.3
         version: 4.1.3
       pxd:
-        specifier: ^0.0.28
-        version: 0.0.28(vue@3.5.18(typescript@4.9.4))
+        specifier: ^0.0.29
+        version: 0.0.29(vue@3.5.18(typescript@4.9.4))
       vue:
         specifier: ^3.5.0
         version: 3.5.18(typescript@4.9.4)
@@ -2005,8 +2005,8 @@ packages:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
 
-  pxd@0.0.28:
-    resolution: {integrity: sha512-leqBNLBuucMkxP8jz+e5rkPBCTTheiylPfBrnNpl6o0v0j8202gYevUoY7lxB9//Iabu8RzGUyTfeUGgCTDmsQ==}
+  pxd@0.0.29:
+    resolution: {integrity: sha512-CqLVV5StR93rGDwFJ7tOfqIoHLZ5BjWnQ/v0kjVak2oI6QgzTABZr5CF6gTegXGQm1PWOZV1e8J3BNjju/a8ug==}
     peerDependencies:
       vue: '>=2.7.0 || >=3.2.0'
 
@@ -4584,7 +4584,7 @@ snapshots:
 
   punycode@2.1.1: {}
 
-  pxd@0.0.28(vue@3.5.18(typescript@4.9.4)):
+  pxd@0.0.29(vue@3.5.18(typescript@4.9.4)):
     dependencies:
       '@gdsicon/vue': 1.0.4(vue@3.5.18(typescript@4.9.4))
       vue: 3.5.18(typescript@4.9.4)

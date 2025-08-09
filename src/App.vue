@@ -13,16 +13,22 @@ async function init() {
   initNotification()
 }
 
+const isLoading = ref(false)
+
 const isVisible = ref(false)
 
 async function handleConfirm() {
-  if (!isInstalled.value) {
-    await initServiceWorker()
-  } else {
-    await unsubscribe()
+  try {
+    if (!isInstalled.value) {
+      await initServiceWorker()
+    } else {
+      await unsubscribe()
+    }
+    init()
+    handleClose()
+  } finally {
+    isLoading.value = false
   }
-  init()
-  handleClose()
 }
 
 function handleClose() {
@@ -72,6 +78,7 @@ onMounted(async () => {
     v-model="isVisible"
     title="Subscription"
     header-style
+    :loading="isLoading"
   >
     <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
@@ -80,7 +87,8 @@ onMounted(async () => {
         Cancel
       </PButton>
 
-      <PButton variant="primary" @click="handleConfirm">
+      <PButton variant="primary" @click="handleConfirm" :loading="isLoading">
+
         Confirm
       </PButton>
     </template>
