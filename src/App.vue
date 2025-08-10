@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isInstalled, isOperating, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
+import { isInstalled, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
 import TodayList from "./components/TodayList.vue";
 import TmrList from "./components/TmrList.vue";
 import TodoList from "./components/TodoList.vue";
@@ -8,14 +8,16 @@ import { onMounted } from "vue";
 import { ref } from 'vue'
 import { initData, initNotification } from "./src";
 
+const isVisible = ref(false)
+const isLoading = ref(false)
+
 async function init() {
   initData()
   initNotification()
 }
 
-const isVisible = ref(false)
-
 async function handleConfirm() {
+  isLoading.value = true
   try {
     if (!isInstalled.value) {
       await initServiceWorker()
@@ -24,7 +26,10 @@ async function handleConfirm() {
     }
     init()
     handleClose()
-  } catch {}
+  } catch {} finally {
+    isLoading.value = false
+  }
+
 }
 
 function handleClose() {
@@ -44,20 +49,20 @@ onMounted(async () => {
 <template>
   <header
     :style="{
-      pointerEvents: isOperating ? 'none' : 'auto',
+      pointerEvents: isLoading ? 'none' : 'auto',
     }"
   >
     <button
       :style="{
         color: isInstalled ? '#42b983' : '#ff4949',
-        opacity: isOperating ? 0.2 : 1,
+        opacity: isLoading ? 0.2 : 1,
       }"
       @click="isVisible = true"
     >
       {{ isInstalled ? "Actived" : "Inactived" }}
     </button>
     <div class="loading" :style="{
-      opacity: isOperating ? 1 : 0,
+      opacity: isLoading ? 1 : 0,
     }">
       <div class="loading-dot"></div>
       <div class="loading-dot"></div>
@@ -76,16 +81,16 @@ onMounted(async () => {
     v-model="isVisible"
     title="Subscription"
     header-style
-    :loading="isOperating"
+    :loading="isLoading"
   >
     <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
     <template #footer>
-      <PButton @click="handleClose" :disable="isOperating">
+      <PButton @click="handleClose" :disable="isLoading">
         Cancel
       </PButton>
 
-      <PButton variant="primary" @click="handleConfirm" :loading="isOperating">
+      <PButton variant="primary" @click="handleConfirm" :loading="isLoading">
         Confirm
       </PButton>
     </template>

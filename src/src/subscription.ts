@@ -10,7 +10,6 @@ let swr: ServiceWorkerRegistration | undefined;
 let temporaryId: number;
 export let endpoint: string | null;
 export const isInstalled = ref(false);
-export const isOperating = ref(false);
 
 // Process:
 // 1. `checkSubscription`
@@ -52,8 +51,6 @@ async function initPushManager() {
 }
 
 export async function registerServiceWorker() {
-  isOperating.value = true;
-
   await navigator.serviceWorker
     .register(SW, {
       type: "module",
@@ -64,9 +61,6 @@ export async function registerServiceWorker() {
 
       return await subscribe();
     })
-    .finally(() => {
-      isOperating.value = false;
-    });
 }
 
 export async function subscribe() {
@@ -94,8 +88,6 @@ export async function subscribe() {
 }
 
 export async function unsubscribe() {
-  isOperating.value = true;
-
   return swr!.pushManager
     .getSubscription()
     .then((sub) =>
@@ -111,7 +103,6 @@ export async function unsubscribe() {
         setEndpointToStorage();
       })
     )
-    .finally(() => (isOperating.value = false));
 }
 
 async function generateVAPIDKeys() {
