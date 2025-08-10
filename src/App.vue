@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { registerServiceWorker, isInstalled, isOperating, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
+import { isInstalled, isOperating, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
 import TodayList from "./components/TodayList.vue";
 import TmrList from "./components/TmrList.vue";
 import TodoList from "./components/TodoList.vue";
@@ -13,8 +13,6 @@ async function init() {
   initNotification()
 }
 
-const isLoading = ref(false)
-
 const isVisible = ref(false)
 
 async function handleConfirm() {
@@ -26,9 +24,7 @@ async function handleConfirm() {
     }
     init()
     handleClose()
-  } finally {
-    isLoading.value = false
-  }
+  } catch {}
 }
 
 function handleClose() {
@@ -37,9 +33,7 @@ function handleClose() {
 
 onMounted(async () => {
   const isSubscribed = await checkSubscription()
-  if (!isSubscribed) {
-    isVisible.value = true
-  }
+  isVisible.value = !isSubscribed
 })
 </script>
 
@@ -78,17 +72,16 @@ onMounted(async () => {
     v-model="isVisible"
     title="Subscription"
     header-style
-    :loading="isLoading"
+    :loading="isOperating"
   >
     <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
     <template #footer>
-      <PButton @click="handleClose">
+      <PButton @click="handleClose" :disable="isOperating">
         Cancel
       </PButton>
 
-      <PButton variant="primary" @click="handleConfirm" :loading="isLoading">
-
+      <PButton variant="primary" @click="handleConfirm" :loading="isOperating">
         Confirm
       </PButton>
     </template>

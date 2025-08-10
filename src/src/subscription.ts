@@ -21,26 +21,34 @@ export const isOperating = ref(false);
 
 export async function checkSubscription() {
   swr = await navigator.serviceWorker.getRegistration(SW);
-  return !!swr
+  if (swr) {
+    const sub = await swr!.pushManager.getSubscription();
+    if (sub) {
+      getEndpointFromStorage();
+      isInstalled.value = true;
+    }
+    return !!sub
+  }
+  return !!swr;
 }
 
 export async function initServiceWorker(): Promise<void> {
   if (!swr) {
     await registerServiceWorker();
   } else {
-    await initPushManager()
+    await initPushManager();
   }
 }
 
 async function initPushManager() {
-    const sub = await swr!.pushManager.getSubscription();
+  const sub = await swr!.pushManager.getSubscription();
 
-    if (sub) {
-      getEndpointFromStorage();
-      isInstalled.value = true;
-    } else {
-      await subscribe();
-    }
+  if (sub) {
+    getEndpointFromStorage();
+    isInstalled.value = true;
+  } else {
+    await subscribe();
+  }
 }
 
 export async function registerServiceWorker() {
@@ -54,7 +62,7 @@ export async function registerServiceWorker() {
     .then(async (registration) => {
       swr = registration;
 
-      return await subscribe()
+      return await subscribe();
     })
     .finally(() => {
       isOperating.value = false;
