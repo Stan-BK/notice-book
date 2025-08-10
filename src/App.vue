@@ -33,7 +33,11 @@ function handleClose() {
 
 onMounted(async () => {
   const isSubscribed = await checkSubscription()
-  isVisible.value = !isSubscribed
+  if (!isSubscribed) {
+    isVisible.value = true
+  } else {
+    init()
+  }
 })
 </script>
 
