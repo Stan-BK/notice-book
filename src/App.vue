@@ -86,7 +86,7 @@ onMounted(async () => {
     <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
     <template #footer>
-      <PButton @click="handleClose" :disable="isLoading">
+      <PButton @click="handleClose" :disabled="isLoading">
         Cancel
       </PButton>
 
