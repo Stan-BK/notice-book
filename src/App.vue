@@ -7,6 +7,7 @@ import YdayList from "./components/YdayList.vue";
 import { onMounted } from "vue";
 import { ref } from 'vue'
 import { initData, initNotification } from "./src";
+import { useMessage } from 'pxd'
 
 const isVisible = ref(false)
 const isLoading = ref(false)
@@ -26,7 +27,11 @@ async function handleConfirm() {
     }
     init()
     handleClose()
-  } catch {} finally {
+  } catch(e: any) {
+    useMessage(e.message as string, {
+      type: 'error'
+    })
+  } finally {
     isLoading.value = false
   }
 
@@ -47,6 +52,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <PMessage position="top"></PMessage>
   <header
     :style="{
       pointerEvents: isLoading ? 'none' : 'auto',
@@ -86,7 +92,7 @@ onMounted(async () => {
     <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
 
     <template #footer>
-      <PButton @click="handleClose" :disabled="isLoading">
+      <PButton @click="handleClose" :disable="isLoading">
         Cancel
       </PButton>
 
