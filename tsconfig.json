@@ -3,10 +3,10 @@
     "target": "ES2017",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": [
       "ESNext",
