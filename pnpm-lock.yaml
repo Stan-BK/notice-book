@@ -12,8 +12,8 @@ importers:
         specifier: ^4.1.3
         version: 4.1.3
       pxd:
-        specifier: ^0.0.34
-        version: 0.0.34(vue@3.5.18(typescript@4.9.4))
+        specifier: ^0.0.35
+        version: 0.0.35(vue@3.5.18(typescript@4.9.4))
       vue:
         specifier: ^3.5.0
         version: 3.5.18(typescript@4.9.4)
@@ -2038,8 +2038,8 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  pxd@0.0.34:
-    resolution: {integrity: sha512-Y8GCQtD1Ccok6SZ+IzBmAKnfN99bDac4qmF+3vBbUH2JGLyiFGfB3C70ssa5CWv3S3kaswE0K90vs13PB6xQ+g==}
+  pxd@0.0.35:
+    resolution: {integrity: sha512-Fx9sC/AuoIcuFBap8O7RuoSuBqoqHgn9e0bC9HE18sndxOAdSszRc7OGbcz17iIdUZohGaQgngi4DjHz4UcV3Q==}
     peerDependencies:
       vue: '>=2.7.0 || >=3.2.0'
 
@@ -4768,7 +4768,7 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  pxd@0.0.34(vue@3.5.18(typescript@4.9.4)):
+  pxd@0.0.35(vue@3.5.18(typescript@4.9.4)):
     dependencies:
       '@gdsicon/vue': 1.0.4(vue@3.5.18(typescript@4.9.4))
       dayjs: 1.11.13
