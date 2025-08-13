@@ -9,12 +9,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 export default defineConfig(({ mode }) => {
   return {
     base: loadEnv(mode, __dirname).VITE_APP_PATHNAME,
-    optimizeDeps: {
-      exclude: ['pxd'], // 排除pxd模块，保持其内部依赖引入
-    },
     plugins: [
       vue(),
-      VitePWA({ 
+      VitePWA({
         injectRegister: null,
         registerType: 'autoUpdate',
         srcDir: 'src',

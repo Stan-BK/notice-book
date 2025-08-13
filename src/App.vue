@@ -1,16 +1,32 @@
-<script setup lang="ts">
-import { isInstalled, initServiceWorker, unsubscribe, checkSubscription } from "./src/subscription";
-import TodayList from "./components/TodayList.vue";
-import TmrList from "./components/TmrList.vue";
-import TodoList from "./components/TodoList.vue";
-import YdayList from "./components/YdayList.vue";
-import { onMounted } from "vue";
-import { ref } from 'vue'
-import { initData, initNotification } from "./src";
-import { useMessage } from 'pxd'
+<script setup lang="tsx">
+import { isInstalled, initServiceWorker, unsubscribe, checkSubscription } from './src/subscription'
+import TodayList from './components/TodayList.vue'
+import TmrList from './components/TmrList.vue'
+import TodoList from './components/TodoList.vue'
+import YdayList from './components/YdayList.vue'
+import { onMounted, computed, ref } from 'vue'
+import { initData, initNotification } from './src'
+import { useMessage, useDelayChange } from 'pxd'
 
 const isVisible = ref(false)
-const isLoading = ref(false)
+// 延迟更新加载状态, 避免持续时间过短出现状态闪烁
+const {
+  value: isLoading,
+  setValue: setLoading,
+  setValueDelay: setLoadingDelay,
+} = useDelayChange(false)
+
+const installMessages = computed(() => {
+  return isInstalled.value
+    ? {
+      topStatus: 'Actived',
+      modalMsg: 'Do u want to Unsubscribe offline push?'
+    }
+    : {
+      topStatus: 'Inactived',
+      modalMsg: 'Do u want to Subscribe offline push?'
+    }
+})
 
 async function init() {
   initData()
@@ -18,7 +34,7 @@ async function init() {
 }
 
 async function handleConfirm() {
-  isLoading.value = true
+  setLoadingDelay(true)
   try {
     if (!isInstalled.value) {
       await initServiceWorker()
@@ -27,12 +43,10 @@ async function handleConfirm() {
     }
     init()
     handleClose()
-  } catch(e: any) {
-    useMessage(e.message as string, {
-      type: 'error'
-    })
+  } catch (e: any) {
+    useMessage(e.message, {      type: 'error'    })
   } finally {
-    isLoading.value = false
+    setLoading(false)
   }
 
 }
@@ -52,56 +66,71 @@ onMounted(async () => {
 </script>
 
 <template>
-  <PMessage position="top"></PMessage>
+  <PMessage position="top" />
   <header
-    :style="{
-      pointerEvents: isLoading ? 'none' : 'auto',
+    :class="{
+      'pointer-events-none': isLoading
     }"
   >
     <button
+      class="outline-none"
       :style="{
         color: isInstalled ? '#42b983' : '#ff4949',
         opacity: isLoading ? 0.2 : 1,
       }"
       @click="isVisible = true"
     >
-      {{ isInstalled ? "Actived" : "Inactived" }}
+      {{ installMessages.topStatus }}
     </button>
-    <div class="loading" :style="{
-      opacity: isLoading ? 1 : 0,
-    }">
-      <div class="loading-dot"></div>
-      <div class="loading-dot"></div>
-      <div class="loading-dot"></div>
+
+    <div
+      class="loading opacity-0"
+      :class="{ 'opacity-100': isLoading }"
+    >
+      <div class="loading-dot" />
+      <div class="loading-dot" />
+      <div class="loading-dot" />
     </div>
   </header>
+
   <div class="page">
     <todo-list />
-    <div class="day-list-wrap">
+    <div class="day-list-wrap outline-none">
       <tmr-list />
       <today-list />
       <yday-list />
     </div>
   </div>
+
   <PModal
     v-model="isVisible"
     title="Subscription"
-    header-style
+    header-stylize
+    close-on-press-escape
+    close-on-click-overlay
     :loading="isLoading"
   >
-    <PText> {{ isInstalled ? 'Do u want to Unsubscribe offline push?' : 'Do u want to Subscribe offline push?' }} </PText>
+    <PText> {{ installMessages.modalMsg }} </PText>
 
     <template #footer>
-      <PButton @click="handleClose" :disable="isLoading">
+      <PButton
+        :disable="isLoading"
+        @click="handleClose"
+      >
         Cancel
       </PButton>
 
-      <PButton variant="primary" @click="handleConfirm" :loading="isLoading">
+      <PButton
+        variant="primary"
+        :loading="isLoading"
+        @click="handleConfirm"
+      >
         Confirm
       </PButton>
     </template>
   </PModal>
 </template>
+
 <style>
 h3 {
   margin: 0 !important;
@@ -115,10 +144,8 @@ header {
   width: 140px;
   height: 32px;
   clip-path: path("M 0 0 C 45 0 0 32 45 32  L 100 32 C 140 32 100 0 140 0 z");
-  background: linear-gradient(
-    rgb(var(--card-bg-color)),
-    rgb(var(--card-bg-color), 0.5)
-  );
+  background: linear-gradient(rgb(var(--card-bg-color)),
+      rgb(var(--card-bg-color), 0.5));
   color: var(--color);
   display: flex;
   justify-content: center;
@@ -170,6 +197,7 @@ header {
       &:nth-child(2) {
         animation-delay: 0.24s;
       }
+
       &:nth-child(3) {
         animation-delay: 0.48s;
       }
@@ -180,10 +208,12 @@ header {
         opacity: 0.3;
         transform: scale(0.8);
       }
+
       30% {
         opacity: 1;
         transform: scale(1);
       }
+
       60%,
       100% {
         opacity: 0.3;
