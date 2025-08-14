@@ -20,10 +20,7 @@ import { toggleItems } from '../src'
 </template>
 <style scoped>
 .today-list {
-  width: 100%;
   height: calc(48% - 40px);
-  float: right;
-  margin-top: 40px;
   border-radius: 20px;
   padding: 40px;
   background: linear-gradient(rgb(var(--card-bg-color), .4), rgb(var(--card-bg-color)));
