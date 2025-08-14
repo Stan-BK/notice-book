@@ -9,14 +9,23 @@ const emits = defineEmits<{
   (e: 'toggle'): void
 }>()
 </script>
+
 <template>
-  <div class="notice-card">
-    <span class="title">
-      <slot name="title" />
-    </span>
-    <div class="control-bar">
-      <slot name="control-bar" />
+  <PMaterial
+    variant="large"
+    class="notice-card"
+    direction="vertical"
+    :wrap="false"
+  >
+    <div class="w-full flex justify-between items-center">
+      <span class="title">
+        <slot name="title" />
+      </span>
+      <div class="control-bar">
+        <slot name="control-bar" />
+      </div>
     </div>
+
     <div
       v-if="isNeedPort"
       class="port"
@@ -24,17 +33,18 @@ const emits = defineEmits<{
     >
       TOG
     </div>
+
     <slot />
-  </div>
+  </PMaterial>
 </template>
+
 <style scoped lang="less">
 .notice-card {
   position: relative;
-  background: linear-gradient(rgb(var(--card-bg-color), .5), rgb(var(--card-bg-color)), rgb(var(--card-bg-color), 0));
 }
 
-.control-bar {
-  float: right;
+.notice-card + .notice-card {
+  margin-top: 20px;
 }
 
 .title {
@@ -44,12 +54,12 @@ const emits = defineEmits<{
 
 .port {
   position: absolute;
-  left: -9%;
-  top: calc(50% - 12px);
+  left: 20px;
+  top: 10px;
   width: 5%;
   height: 25px;
   transform: translateY(0);
-  background-color: rgb(var(--card-bg-color));
+  background-color: var(--color-gray-200);
   font-size: .9em;
   text-align: center;
   line-height: 25px;
@@ -66,7 +76,7 @@ const emits = defineEmits<{
     width: 17px;
     height: 17px;
     transform: rotate(45deg);
-    background-color: rgb(var(--card-bg-color));
+    background-color: var(--color-gray-200);
     z-index: -1;
     border-top-left-radius: 2px;
     border-bottom-right-radius: 2px;

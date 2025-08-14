@@ -29,12 +29,12 @@ function blur(e: Event) {
   <TransitionGroup
     name="list"
     tag="ul"
-    class="notice-list"
+    class="notice-list w-full"
   >
     <li
       v-for="(notice, index) in props.notices"
       :key="index"
-      class="notice-list-item"
+      class="notice-list-item flex items-center"
     >
       <div
         class="drag-btn-wrap"
@@ -74,20 +74,20 @@ function blur(e: Event) {
 </template>
 <style scoped lang="less">
 .notice-list {
-  padding: 0;
+  flex: 1;
   list-style: none;
-  height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   .notice-list-item {
     width: 100%;
+    padding: 4px;
     min-height: 50px;
+    margin-bottom: 5px;
+    border-radius: 8px;
     white-space: nowrap;
-    border: 2px dashed transparent;
-    padding: 0 4px;
 
     .drag-btn-wrap {
-      float: left;
       display: inline-flex;
       width: 6%;
       height: 50px;
@@ -100,7 +100,7 @@ function blur(e: Event) {
         display: inline-block;
         width: 15px;
         height: 15px;
-        border: 1px solid var(--color);
+        border: 1px solid var(--color-gray-600);
         transition: background-position .2s;
         overflow: hidden;
         transition: .2s;
@@ -111,7 +111,7 @@ function blur(e: Event) {
           position: absolute;
           width: 200%;
           height: 200%;
-          background-color: var(--color);
+          background-color: var(--color-gray-600);
           left: -200%;
           top: 200%;
           transition: .2s;
@@ -148,16 +148,14 @@ function blur(e: Event) {
       }
 
       &:focus {
-        border-color: var(--color);
+        border-color: var(--color-gray-600);
       }
 
       &.noticeName {
-        float: left;
         width: 20%;
       }
 
       &.timestamp {
-        float: right;
         width: 20%;
         display: flex;
         justify-content: space-around;

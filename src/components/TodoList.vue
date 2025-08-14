@@ -13,17 +13,17 @@ function addNotice() {
   })
 }
 
-function removeNotice() { 
+function removeNotice() {
   for (let i = 0; i < todoList.length;) {
     if (todoList[i].isChosen) {
       todoList.splice(i, 1)
-    } else 
+    } else
       i++
   }
 }
 </script>
 <template>
-  <nt-card class="todo-list">
+  <nt-card class="todo-list h-full">
     <template #title>
       Todo List
     </template>
@@ -42,13 +42,8 @@ function removeNotice() {
 </template>
 <style scoped lang="less">
 .todo-list {
-  width: 45%;
-  height: calc(100% - 40px);
-  float: left;
-  margin-top: 40px;
-  margin-left: 80px;
-  border-radius: 20px;
-  padding: 40px;
+  width: 50%;
+  padding: 20px;
 }
 
 .addition {
