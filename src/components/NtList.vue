@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NoticeType } from '../data'
+import { NoticeType } from '../libs'
 
 const props = defineProps<{ notices: NoticeType[] }>()
 
@@ -73,6 +73,9 @@ function blur(e: Event) {
   </TransitionGroup>
 </template>
 <style scoped lang="less">
+ul {
+  padding: 0;
+}
 .notice-list {
   flex: 1;
   list-style: none;

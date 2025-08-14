@@ -1,7 +1,8 @@
-import { NoticeType, todoList } from '../data'
+import { NoticeType, todoList } from './data'
 export * from './initData'
 export * from './subscription'
 export * from './notification'
+export * from './data'
 
 export function toggleItems(targetList: NoticeType[]) {
   const todoChosenList = todoList.reduce((prev: NoticeType[], cur) => cur.isChosen ? prev.concat(cur) : prev, [])

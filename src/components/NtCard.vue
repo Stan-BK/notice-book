@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { NoticeType } from '../data'
-
 defineProps<{
-  isNeedPort?: boolean
+  isNeedPort?: boolean;
 }>()
 
 const emits = defineEmits<{
-  (e: 'toggle'): void
+  (e: 'toggle'): void;
 }>()
 </script>
 
@@ -31,7 +29,7 @@ const emits = defineEmits<{
       class="port"
       @click="() => emits('toggle')"
     >
-      TOG
+      Toggle
     </div>
 
     <slot />
@@ -60,15 +58,16 @@ const emits = defineEmits<{
   height: 25px;
   transform: translateY(0);
   background-color: var(--color-gray-200);
-  font-size: .9em;
+  font-size: 0.9em;
   text-align: center;
   line-height: 25px;
   border-radius: 2px;
-  transition: .4s;
+  transition: 0.4s;
   transform-origin: center;
   cursor: pointer;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     position: absolute;
     content: "";
     display: block;
@@ -84,15 +83,34 @@ const emits = defineEmits<{
 
   &::before {
     left: -8px;
+    border-bottom: 1px solid transparent;
+    border-left: 1px solid transparent;
+    transition: border 0.4s;
   }
 
   &::after {
     right: -8px;
+    border-top: 1px solid transparent;
+    border-right: 1px solid transparent;
+    transition: border 0.4s;
   }
 
   &:hover {
-    box-shadow: inset 0px 1px 3px var(--hover-color), inset 0px -1px 3px var(--hover-color);
+    box-shadow: inset 0px 1px 2px var(--hover-color),
+      inset 0px -1px 2px var(--hover-color);
     transform: scale(1.1);
+
+    &::before {
+      border: 1px solid var(--hover-color);
+      border-top: none;
+      border-right: none;
+    }
+
+    &::after {
+      border: 1px solid var(--hover-color);
+      border-bottom: none;
+      border-left: none;
+    }
   }
 }
 </style>

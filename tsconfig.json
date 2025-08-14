@@ -3,7 +3,7 @@
     "target": "ES2017",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "strict": true,
     "jsx": "preserve",
     // "resolveJsonModule": true,
@@ -25,7 +25,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "public/sw.ts"
+    "public/sw.ts",
   ],
   "exclude": [
     "dist",

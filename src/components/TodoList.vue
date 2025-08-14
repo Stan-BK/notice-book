@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { todoList } from '../data'
+import { todoList } from '../libs'
 
 function addNotice() {
   todoList.push({

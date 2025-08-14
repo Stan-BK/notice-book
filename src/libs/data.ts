@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+
 export interface NoticeType {
   noticeName: string
   description: string

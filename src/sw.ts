@@ -1,7 +1,7 @@
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 import { clientsClaim } from 'workbox-core'
-import { NoticeType } from './data'
+import { NoticeType } from './libs/data'
 
 declare let self: ServiceWorkerGlobalScope
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { ydayList } from '../data'
-import { toggleItems } from '../src'
+import { ydayList, toggleItems } from '../libs'
 </script>
 <template>
   <nt-card
@@ -13,7 +12,7 @@ import { toggleItems } from '../src'
     <template #title>
       Y'day
     </template>
-    <div class="notice-list-wrap">
+    <div class="w-full">
       <nt-list :notices="ydayList" />
     </div>
   </nt-card>

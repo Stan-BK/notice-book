@@ -1,11 +1,10 @@
 <script setup lang="tsx">
-import { isInstalled, initServiceWorker, unsubscribe, checkSubscription } from './src/subscription'
+import { isInstalled, initServiceWorker, unsubscribe, checkSubscription, initData, initNotification } from './libs'
 import TodayList from './components/TodayList.vue'
 import TmrList from './components/TmrList.vue'
 import TodoList from './components/TodoList.vue'
 import YdayList from './components/YdayList.vue'
 import { onMounted, computed, ref } from 'vue'
-import { initData, initNotification } from './src'
 import { useMessage, useDelayChange } from 'pxd'
 
 const isVisible = ref(false)

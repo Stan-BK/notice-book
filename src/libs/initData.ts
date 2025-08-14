@@ -1,5 +1,5 @@
 import { SUBSCRIPTION_PATH, endpoint } from '.'
-import { todoList, todayList, ydayList, tmrList, NoticeType } from '../data'
+import { todoList, todayList, ydayList, tmrList, NoticeType } from './data'
 import { watch } from 'vue'
 
 const noticeLists = [todoList, todayList, ydayList, tmrList]
