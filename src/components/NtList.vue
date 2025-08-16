@@ -32,8 +32,8 @@ function blur(e: Event) {
     class="notice-list w-full"
   >
     <li
-      v-for="(notice, index) in props.notices"
-      :key="index"
+      v-for="(notice) in props.notices"
+      :key="notice"
       class="notice-list-item flex items-center"
     >
       <div
@@ -165,8 +165,8 @@ ul {
         align-items: center;
 
         input {
-          width: 48%;
-          height: 100%;
+          width: 45%;
+          height: 90%;
           outline: none;
           border: none;
           text-align: center;
@@ -187,7 +187,9 @@ ul {
   }
 }
 
-.list-enter-active,
+.list-enter-active {
+  transition: all .5s .5s ease;
+}
 .list-leave-active {
   transition: all 0.5s ease;
 }
