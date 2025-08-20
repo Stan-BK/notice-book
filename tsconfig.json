@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "types": [
+      "pxd/volar",
       "vite-plugin-pwa/client"
     ]
   },
