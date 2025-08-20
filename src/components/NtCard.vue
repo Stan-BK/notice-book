@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// import ArrowRightIcon from '@gdsicon/vue/arrow-right'
-import ArrowRightIcon from '@gdsicon/vue/chevron-double-right'
+import ArrowRightIcon from '@gdsicon/vue/arrow-left-right'
 
 defineProps<{
   isNeedPort?: boolean;
