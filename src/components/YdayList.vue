@@ -3,6 +3,7 @@ import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
 import { ydayList, toggleItems } from '../libs'
 </script>
+
 <template>
   <nt-card
     :is-need-port="true"
@@ -12,15 +13,17 @@ import { ydayList, toggleItems } from '../libs'
     <template #title>
       Y'day
     </template>
-    <div class="w-full">
+
+    <PScrollable class="w-full">
       <nt-list :notices="ydayList" />
-    </div>
+    </PScrollable>
   </nt-card>
 </template>
+
 <style scoped>
 .YdayList {
   height: calc(48% - 40px);
-  padding: 40px;
+  padding: 45px 20px 20px;
   background: linear-gradient(rgb(var(--card-bg-color), .4), rgb(var(--card-bg-color)));
 }
 </style>

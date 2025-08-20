@@ -2,6 +2,8 @@
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
 import { todoList } from '../libs'
+import PlusIcon from '@gdsicon/vue/plus'
+import MinusIcon from '@gdsicon/vue/minus'
 
 function addNotice() {
   todoList.push({
@@ -22,42 +24,42 @@ function removeNotice() {
   }
 }
 </script>
+
 <template>
   <nt-card class="todo-list h-full">
     <template #title>
       Todo List
     </template>
+
     <template #control-bar>
-      <span
-        class="addition"
-        @click="addNotice"
-      >+</span>
-      <span
-        class="remove"
-        @click="removeNotice"
-      >-</span>
+      <div class="flex items-center gap-2">
+        <PButton
+          icon
+          size="sm"
+          @click="addNotice"
+        >
+          <PlusIcon />
+        </PButton>
+
+        <PButton
+          icon
+          size="sm"
+          @click="removeNotice"
+        >
+          <MinusIcon />
+        </PButton>
+      </div>
     </template>
-    <nt-list :notices="todoList" />
+
+    <PScrollable class="w-full">
+      <nt-list :notices="todoList" />
+    </PScrollable>
   </nt-card>
 </template>
+
 <style scoped lang="less">
 .todo-list {
   width: 50%;
   padding: 20px;
-}
-
-.addition {
-  font-size: 2em;
-  margin-right: 1em;
-  cursor: pointer;
-}
-
-.addition:hover, .remove:hover {
-  color: var(--hover-color);
-}
-
-.remove {
-  font-size: 2em;
-  cursor: pointer;
 }
 </style>

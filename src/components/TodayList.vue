@@ -4,6 +4,7 @@ import NtList from './NtList.vue'
 import { todayList, toggleItems } from '../libs'
 import SettingsGearIcon from '@gdsicon/vue/settings-gear'
 </script>
+
 <template>
   <nt-card
     :is-need-port="true"
@@ -26,16 +27,18 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
         {{ todayList.length }} notice today
       </span>
     </template>
-    <div class="w-full">
+
+    <PScrollable class="w-full">
       <nt-list :notices="todayList" />
-    </div>
+    </PScrollable>
   </nt-card>
 </template>
+
 <style scoped>
 .today-list {
   height: calc(48% - 40px);
   border-radius: 20px;
-  padding: 40px;
+  padding: 45px 20px 20px;
   background: linear-gradient(rgb(var(--card-bg-color), .4), rgb(var(--card-bg-color)));
 }
 .remark {
@@ -45,14 +48,7 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
   transition: .2s;
 }
 .scroll {
-  animation: scroll 1s linear infinite;
-}
-@keyframes scroll {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  /* spin animate from tailwindcss */
+  animation: spin 1s linear infinite;
 }
 </style>
