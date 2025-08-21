@@ -32,7 +32,7 @@ function onDateTimeUpdate(ev: Event, data: NoticeType) {
       <textarea
         v-model="notice.description"
         class="notice-input description"
-        style="resize: none;"
+        style="resize: none"
       />
 
       <input
@@ -41,6 +41,7 @@ function onDateTimeUpdate(ev: Event, data: NoticeType) {
         name="expiration-time"
         class="datetime h-full bg-transparent border-none outline-none"
         pattern="[0-9]{2}:[0-9]{2}"
+        :value="`${notice.hour}:${notice.minute}`"
         @change="onDateTimeUpdate($event, notice)"
       >
     </li>
@@ -80,7 +81,7 @@ ul {
       outline: none;
       border: 2px dashed transparent;
       border-radius: 4px;
-      transition: border-color .4s, height .2s;
+      transition: border-color 0.4s, height 0.2s;
       &:hover {
         border-color: var(--hover-color);
       }
@@ -108,7 +109,7 @@ ul {
 }
 
 .list-enter-active {
-  transition: all .5s .5s ease;
+  transition: all 0.5s 0.5s ease;
 }
 .list-leave-active {
   transition: all 0.5s ease;
@@ -118,5 +119,4 @@ ul {
   opacity: 0;
   transform: translateX(30px);
 }
-
 </style>
