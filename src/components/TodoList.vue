@@ -7,6 +7,7 @@ import MinusIcon from '@gdsicon/vue/minus'
 
 function addNotice() {
   todoList.push({
+    id: Math.random(),
     noticeName: '待办事项',
     description: '',
     isChosen: false,
@@ -19,8 +20,9 @@ function removeNotice() {
   for (let i = 0; i < todoList.length;) {
     if (todoList[i].isChosen) {
       todoList.splice(i, 1)
-    } else
+    } else {
       i++
+    }
   }
 }
 </script>

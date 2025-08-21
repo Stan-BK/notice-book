@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 
 export interface NoticeType {
+  id: number | string
   noticeName: string
   description: string
   isChosen: boolean

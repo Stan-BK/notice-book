@@ -29,8 +29,8 @@ function blur(e: Event) {
     class="notice-list w-full"
   >
     <li
-      v-for="(notice, i) in props.notices"
-      :key="notice.noticeName + i"
+      v-for="notice in props.notices"
+      :key="notice.id"
       class="notice-list-item flex items-center gap-3"
     >
       <PCheckbox v-model="notice.isChosen" />
