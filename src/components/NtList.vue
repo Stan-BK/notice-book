@@ -41,7 +41,6 @@ function onDateTimeUpdate(ev: Event, data: NoticeType) {
         name="expiration-time"
         class="datetime h-full bg-transparent border-none outline-none"
         pattern="[0-9]{2}:[0-9]{2}"
-        :value="`${notice.hour}:${notice.minute}`"
         @change="onDateTimeUpdate($event, notice)"
       >
     </li>
