@@ -36,6 +36,7 @@ function removeNotice() {
         <PButton
           icon
           size="sm"
+          variant="ghost"
           @click="addNotice"
         >
           <PlusIcon />
@@ -44,6 +45,7 @@ function removeNotice() {
         <PButton
           icon
           size="sm"
+          variant="ghost"
           @click="removeNotice"
         >
           <MinusIcon />

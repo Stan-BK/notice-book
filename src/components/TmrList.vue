@@ -24,7 +24,6 @@ import { tmrList, toggleItems } from '../libs'
 <style scoped>
 .TmrList {
   height: calc(48% - 40px);
-  padding: 45px 20px 20px;
-  background: linear-gradient(rgb(var(--card-bg-color), .4), rgb(var(--card-bg-color)));
+  padding: 50px 20px 20px;
 }
 </style>

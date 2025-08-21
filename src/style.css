@@ -1,9 +1,3 @@
-:root {
-  --main-bg-color: #4e4e4e;
-  --card-bg-color: 42, 42, 42;
-  --hover-color: #ffffff;
-}
-
 a {
   text-decoration: none;
 }
@@ -14,17 +8,4 @@ a {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #9e9e9e;
-    --main-bg-color: #e6e6e6;
-    --card-bg-color: 256, 256, 256;
-    --hover-color: #6d6d6d;
-  }
 }
