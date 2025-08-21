@@ -114,14 +114,12 @@ onMounted(async () => {
     title="Subscription"
     header-stylize
     :loading="isLoading"
-    close-on-press-escape
-    close-on-click-overlay
   >
     <PText> {{ installMessages.modalMsg }} </PText>
 
     <template #footer>
       <PButton
-        :disable="isLoading"
+        :disabled="isLoading"
         @click="handleClose"
       >
         Cancel
