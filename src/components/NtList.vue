@@ -3,22 +3,11 @@ import { NoticeType } from '../libs'
 
 const props = defineProps<{ notices: NoticeType[] }>()
 
-function validNum(type: 'hour' | 'minute', notice: NoticeType, e: Event) {
-  const num = type === 'hour' ? 23 :  59
-  const tar = e.target as HTMLInputElement
-  const val = parseInt(tar.value)
-  if (val < 0) {
-    tar.value = '0'
-    notice[type] = 0
-  } else if (val > num) {
-    tar.value = String(num)
-    notice[type] = num
-  }
-}
+function onDateTimeUpdate(ev: Event, data: NoticeType) {
+  const [hours, minute] = (ev.target as HTMLInputElement).value.split(':')
 
-function blur(e: Event) {
-  const tar = e.target as HTMLInputElement
-  tar.value = tar.value.padStart(2, '0')
+  data.hour = Number(hours)
+  data.minute = Number(minute)
 }
 </script>
 
@@ -46,23 +35,14 @@ function blur(e: Event) {
         style="resize: none;"
       />
 
-      <div class="notice-input timestamp">
-        <input
-          v-model="notice.hour"
-          type="number"
-          min="0"
-          max="23"
-          @input="validNum('hour', notice, $event)"
-          @blur="blur"
-        >:<input
-          v-model="notice.minute"
-          type="number"
-          min="0"
-          max="59"
-          @input="validNum('minute', notice, $event)"
-          @blur="blur"
-        >
-      </div>
+      <input
+        required
+        type="time"
+        name="expiration-time"
+        class="datetime h-full bg-transparent border-none outline-none"
+        pattern="[0-9]{2}:[0-9]{2}"
+        @change="onDateTimeUpdate($event, notice)"
+      >
     </li>
   </TransitionGroup>
 </template>
@@ -82,9 +62,12 @@ ul {
     width: 100%;
     padding: 4px;
     min-height: 50px;
-    margin-bottom: 5px;
     border-radius: 8px;
     white-space: nowrap;
+
+    & + & {
+      margin-bottom: 6px;
+    }
 
     .noticeName {
       width: 25%;
@@ -92,8 +75,7 @@ ul {
 
     .notice-input {
       height: 36px;
-      line-height: 50px;
-      padding: 4px;
+      line-height: 36px;
       background-color: transparent;
       outline: none;
       border: 2px dashed transparent;
@@ -107,31 +89,21 @@ ul {
         border-color: var(--color-gray-600);
       }
 
-      &.timestamp {
-        width: 20%;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-        input {
-          width: 45%;
-          height: 90%;
-          outline: none;
-          border: none;
-          text-align: center;
-          border-radius: 4px;
-        }
-      }
-
       &.description {
         flex: 1;
-        line-height: 32px;
+        padding-inline: 8px;
+        overflow: hidden;
+        line-height: 28px;
+
         &:focus {
           height: 150px;
         }
       }
     }
 
+    .datetime {
+      line-height: 34px;
+    }
   }
 }
 
