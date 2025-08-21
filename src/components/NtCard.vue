@@ -16,6 +16,7 @@ const emits = defineEmits<{
     class="notice-card relative"
     direction="vertical"
     :wrap="false"
+    gap="1"
   >
     <div class="w-full flex justify-between items-center">
       <span class="title">
