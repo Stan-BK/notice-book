@@ -77,7 +77,7 @@ onMounted(async () => {
 <template>
   <PMessage position="top" />
   <header
-    class="fixed top-0 w-full flex items-center justify-center p-2"
+    class="fixed top-0 w-full flex items-center justify-center gap-2 p-2"
     :class="{ 'pointer-events-none': isLoading }"
   >
     <PToggle
@@ -88,6 +88,11 @@ onMounted(async () => {
       active-color="hsl(var(--color-green-600-value))"
       inactive-color="hsl(var(--color-red-600-value))"
       :before-change="onBeforeChangeStatus"
+    />
+
+    <PThemeSwitcher
+      size="xs"
+      variant="ghost"
     />
   </header>
 
