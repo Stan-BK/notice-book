@@ -60,6 +60,8 @@ export async function registerServiceWorker() {
       swr = registration
 
       return await subscribe()
+    }).catch(err => {
+      throw err
     })
 }
 
@@ -83,8 +85,12 @@ export async function subscribe() {
         setEndpointToStorage()
 
         isInstalled.value = true
+      }).catch(() => {
+        throw new Error('subscribe from server error')
       })
-    )
+    ).catch(err => {
+      throw err
+    })
 }
 
 export async function unsubscribe() {
@@ -101,15 +107,23 @@ export async function unsubscribe() {
         isInstalled.value = false
         sub!.unsubscribe()
         setEndpointToStorage()
+      }).catch(() => {
+        throw new Error('unsubscribe from server error')
       })
-    )
+    ).catch(err => {
+      throw err
+    })
 }
 
 async function generateVAPIDKeys() {
   return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', {
     body: JSON.stringify((temporaryId = Date.now())),
     method: 'POST',
-  }).then(async (res) => await res.text())
+  }).then(async (res) => 
+    await res.text()
+  ).catch(() => {
+    throw new Error('Generate vapid key from server error')
+  })
 }
 
 function getEndpointFromStorage() {
