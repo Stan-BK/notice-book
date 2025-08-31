@@ -10,6 +10,8 @@ let swr: ServiceWorkerRegistration | undefined
 let temporaryId: number
 export let endpoint: string | null
 export const isInstalled = ref(false)
+const intervalMS = 1000 * 60 * 5
+let isIntervalRunning = false
 
 // Process:
 // 1. `checkSubscription`
@@ -17,6 +19,7 @@ export const isInstalled = ref(false)
 // 3. if installed, `initPushManager`
 // 4. if not subscribed, `subscribe`
 // 5. if subscribed, `getEndpointFromStorage`
+// 6. update service worker at intervals
 
 export async function checkSubscription() {
   swr = await navigator.serviceWorker.getRegistration(SW)
@@ -25,6 +28,7 @@ export async function checkSubscription() {
     if (sub) {
       getEndpointFromStorage()
       isInstalled.value = true
+      updateServiceWorker()
     }
     return !!sub
   }
@@ -58,9 +62,10 @@ export async function registerServiceWorker() {
     })
     .then(async (registration) => {
       swr = registration
-
+      updateServiceWorker()
       return await subscribe()
-    }).catch(err => {
+    })
+    .catch((err) => {
       throw err
     })
 }
@@ -80,15 +85,18 @@ export async function subscribe() {
           temporaryId,
           subscription: sub,
         }),
-      }).then(() => {
-        endpoint = sub.endpoint
-        setEndpointToStorage()
-
-        isInstalled.value = true
-      }).catch(() => {
-        throw new Error('subscribe from server error')
       })
-    ).catch(err => {
+        .then(() => {
+          endpoint = sub.endpoint
+          setEndpointToStorage()
+
+          isInstalled.value = true
+        })
+        .catch(() => {
+          throw new Error('subscribe from server error')
+        })
+    )
+    .catch((err) => {
       throw err
     })
 }
@@ -102,15 +110,18 @@ export async function unsubscribe() {
         body: JSON.stringify({
           endpoint: sub?.endpoint,
         }),
-      }).then(() => {
-        endpoint = null
-        isInstalled.value = false
-        sub!.unsubscribe()
-        setEndpointToStorage()
-      }).catch(() => {
-        throw new Error('unsubscribe from server error')
       })
-    ).catch(err => {
+        .then(() => {
+          endpoint = null
+          isInstalled.value = false
+          sub!.unsubscribe()
+          setEndpointToStorage()
+        })
+        .catch(() => {
+          throw new Error('unsubscribe from server error')
+        })
+    )
+    .catch((err) => {
       throw err
     })
 }
@@ -119,11 +130,11 @@ async function generateVAPIDKeys() {
   return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', {
     body: JSON.stringify((temporaryId = Date.now())),
     method: 'POST',
-  }).then(async (res) => 
-    await res.text()
-  ).catch(() => {
-    throw new Error('Generate vapid key from server error')
   })
+    .then(async (res) => await res.text())
+    .catch(() => {
+      throw new Error('Generate vapid key from server error')
+    })
 }
 
 function getEndpointFromStorage() {
@@ -132,6 +143,15 @@ function getEndpointFromStorage() {
 
 function setEndpointToStorage() {
   localStorage.setItem('endpoint', endpoint!)
+}
+
+function updateServiceWorker() {
+  if (isIntervalRunning) return
+  isIntervalRunning = true
+
+  setInterval(() => {
+    if (swr && swr.active) swr.update()
+  }, intervalMS)
 }
 
 // This function is needed because Chrome doesn't accept a base64 encoded string
