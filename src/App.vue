@@ -96,7 +96,7 @@ onMounted(async () => {
     />
   </header>
 
-  <div class="page flex items-center gap-4 flex-col sm:flex-row">
+  <div class="page flex items-center gap-4">
     <todo-list />
 
     <PScrollable
@@ -108,6 +108,16 @@ onMounted(async () => {
       <yday-list />
     </PScrollable>
   </div>
+  <PScrollable class="page flex gap-4 mt-40px pt-0">
+    <div class="p-px flex-col h-full">
+      <todo-list />
+      
+      <tmr-list />
+      <today-list />
+      <yday-list />
+      <div class="take-place" />  
+    </div>
+  </PScrollable>
 
   <PModal
     v-model="isVisible"
@@ -137,13 +147,48 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="less">
+body {
+  overflow: hidden;
+}
 .page {
   width: 100vw;
   height: 100vh;
   padding: 40px 20px 20px;
+
+  &:nth-of-type(2) {
+    display: none;
+    padding-top: 0;
+    margin-top: 40px;
+    height: calc(100vh - 40px);
+  }
 }
 
 .day-list-wrap {
   width: calc(50% - 10px);
+}
+
+.take-place {
+  height: 2px;
+}
+
+@media screen and (max-width: 768px) {
+  .page {
+    flex-direction: column;
+
+    &:nth-of-type(1) {
+      display: none;
+    }
+    &:nth-of-type(2) {
+      display: flex;
+    }
+  }
+
+  :deep(.todo-list) {
+    width: 100%;
+  }
+
+  .day-list-wrap {
+    width: 100%;
+  }
 }
 </style>
