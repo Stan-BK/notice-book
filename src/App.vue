@@ -6,6 +6,7 @@ import TodoList from './components/TodoList.vue'
 import YdayList from './components/YdayList.vue'
 import { onMounted, computed, ref } from 'vue'
 import { useMessage, useDelayChange } from 'pxd'
+import LogoGithubSmallIcon from '@gdsicon/vue/logo-github-small'
 
 const isVisible = ref(false)
 // 延迟更新加载状态, 避免持续时间过短出现状态闪烁
@@ -94,6 +95,17 @@ onMounted(async () => {
       size="xs"
       variant="ghost"
     />
+
+    <PLinkButton
+      icon 
+      size="xs"
+      align="center"
+      variant="ghost"
+      href="https://github.com/Stan-BK/notice-book-repo"
+      target="_blank"
+    >
+      <LogoGithubSmallIcon />
+    </PLinkButton>
   </header>
 
   <div class="page flex items-center gap-4">
