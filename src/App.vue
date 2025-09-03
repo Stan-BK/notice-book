@@ -124,6 +124,7 @@ onMounted(async () => {
     title="Subscription"
     header-stylize
     :loading="isLoading"
+    :close-on-click-overlay="!isLoading"
   >
     <PText> {{ installMessages.modalMsg }} </PText>
 
