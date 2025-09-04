@@ -7,6 +7,7 @@ import YdayList from './components/YdayList.vue'
 import { onMounted, computed, ref } from 'vue'
 import { useMessage, useDelayChange } from 'pxd'
 import LogoGithubSmallIcon from '@gdsicon/vue/logo-github-small'
+import RefreshClockwiseIcon from '@gdsicon/vue/refresh-clockwise'
 
 const isVisible = ref(false)
 // 延迟更新加载状态, 避免持续时间过短出现状态闪烁
@@ -51,11 +52,15 @@ async function handleConfirm() {
     setLoading(false, true)
     changeStatusResolver = null
   }
-
 }
 
 function handleClose() {
   isVisible.value = false
+}
+
+function tryReload() {
+  if (confirm('Do you want to refresh the app?'))
+    location.reload()
 }
 
 function onBeforeChangeStatus() {
@@ -106,6 +111,16 @@ onMounted(async () => {
     >
       <LogoGithubSmallIcon />
     </PLinkButton>
+
+    <PButton
+      icon
+      size="xs"
+      align="center"
+      variant="ghost"
+      @click="tryReload"
+    >
+      <RefreshClockwiseIcon />
+    </PButton>
   </header>
 
   <div class="page flex items-center gap-4">
