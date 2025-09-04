@@ -16,7 +16,7 @@ import { tmrList, toggleItems } from '../libs'
     </template>
 
     <PScrollable class="w-full">
-      <nt-list :notices="tmrList" />
+      <nt-list v-model="tmrList" />
     </PScrollable>
   </nt-card>
 </template>

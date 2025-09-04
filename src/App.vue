@@ -80,7 +80,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <PMessage position="top" />
+  <PMessage />
+
   <header
     class="fixed top-0 w-full flex items-center justify-center gap-2 p-2"
     :class="{ 'pointer-events-none': isLoading }"
@@ -101,7 +102,7 @@ onMounted(async () => {
     />
 
     <PLinkButton
-      icon 
+      icon
       size="xs"
       align="center"
       variant="ghost"
@@ -134,23 +135,24 @@ onMounted(async () => {
       <yday-list />
     </PScrollable>
   </div>
+
   <PScrollable class="page flex gap-4 mt-40px pt-0">
     <div class="p-px flex-col h-full">
       <todo-list />
-      
+
       <tmr-list />
       <today-list />
       <yday-list />
-      <div class="take-place" />  
+      <div class="take-place" />
     </div>
   </PScrollable>
 
   <PModal
     v-model="isVisible"
     title="Subscription"
-    header-stylize
     :loading="isLoading"
-    :close-on-click-overlay="!isLoading"
+    close-on-click-overlay
+    header-stylize
   >
     <PText> {{ installMessages.modalMsg }} </PText>
 
