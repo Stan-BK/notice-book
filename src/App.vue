@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { isInstalled, initServiceWorker, unsubscribe, checkSubscription, initData, initNotification } from './libs'
+import { isInstalled, initServiceWorker, unsubscribe, checkSubscription, initData, initNotification, updateAllNoticeList } from './libs'
 import TodayList from './components/TodayList.vue'
 import TmrList from './components/TmrList.vue'
 import TodoList from './components/TodoList.vue'
@@ -40,10 +40,10 @@ async function handleConfirm() {
   try {
     if (!isInstalled.value) {
       await initServiceWorker()
+      updateAllNoticeList()
     } else {
       await unsubscribe()
     }
-    init()
     handleClose()
     changeStatusResolver?.(isInstalled.value)
   } catch (e: any) {
@@ -74,9 +74,8 @@ onMounted(async () => {
   const isSubscribed = await checkSubscription()
   if (!isSubscribed) {
     isVisible.value = true
-  } else {
-    init()
   }
+  init()
 })
 </script>
 

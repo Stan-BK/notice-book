@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { todayList, toggleItems } from '../libs'
+import { isInstalled, todayList, toggleItems } from '../libs'
 import SettingsGearIcon from '@gdsicon/vue/settings-gear'
 </script>
 
@@ -14,17 +14,19 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
     <template #title>
       Today
       <settings-gear-icon
-        :class="todayList.length && 'scroll'"
+        :class="todayList.length && isInstalled && 'scroll'"
         style="font-size: 14px;"
       />
       <span
         class="remark"
         :style="{
-          color: todayList.length ? '#1a9338' : 'var(--color-gray-600)'
-
+          color: todayList.length && isInstalled ? '#1a9338' : 'var(--color-gray-600)'
         }"
       >
-        {{ todayList.length }} notice today
+        {{ 
+          isInstalled ? 
+            `${todayList.length} notice today` : `haven't subscription`
+        }}
       </span>
     </template>
 
