@@ -8,6 +8,7 @@ import { onMounted, computed, ref } from 'vue'
 import { useMessage, useDelayChange } from 'pxd'
 import LogoGithubSmallIcon from '@gdsicon/vue/logo-github-small'
 import RefreshClockwiseIcon from '@gdsicon/vue/refresh-clockwise'
+import { useMediaQuery, PRESET_MEDIA_QUERIES } from 'pxd/composables/use-media-query'
 
 const isVisible = ref(false)
 // 延迟更新加载状态, 避免持续时间过短出现状态闪烁
@@ -15,6 +16,8 @@ const {
   value: isLoading,
   setValue: setLoading,
 } = useDelayChange(false)
+
+const isSmUp = useMediaQuery(PRESET_MEDIA_QUERIES.SM_UP)
 
 let changeStatusResolver: ((value: boolean | PromiseLike<boolean>) => void) | null
 
@@ -80,141 +83,109 @@ onMounted(async () => {
 </script>
 
 <template>
-  <PMessage position="top" />
-  <header
-    class="fixed top-0 w-full flex items-center justify-center gap-2 p-2"
-    :class="{ 'pointer-events-none': isLoading }"
-  >
-    <PToggle
-      v-model="isInstalled"
-      :loading="isLoading"
-      active-label="Actived"
-      inactive-label="Inactived"
-      active-color="hsl(var(--color-green-600-value))"
-      inactive-color="hsl(var(--color-red-600-value))"
-      :before-change="onBeforeChangeStatus"
-    />
+  <div class="wrapper flex flex-col">
+    <PMessage />
 
-    <PThemeSwitcher
-      size="xs"
-      variant="ghost"
-    />
-
-    <PLinkButton
-      icon 
-      size="xs"
-      align="center"
-      variant="ghost"
-      href="https://github.com/Stan-BK/notice-book-repo"
-      target="_blank"
+    <header
+      class="sticky bg-background-100 top-0 w-full flex items-center justify-center gap-2 p-2 z-10"
+      :class="{ 'pointer-events-none': isLoading }"
     >
-      <LogoGithubSmallIcon />
-    </PLinkButton>
+      <PToggle
+        v-model="isInstalled"
+        :loading="isLoading"
+        active-label="Actived"
+        inactive-label="Inactived"
+        active-color="hsl(var(--color-green-600-value))"
+        inactive-color="hsl(var(--color-red-600-value))"
+        :before-change="onBeforeChangeStatus"
+      />
 
-    <PButton
-      icon
-      size="xs"
-      align="center"
-      variant="ghost"
-      @click="tryReload"
-    >
-      <RefreshClockwiseIcon />
-    </PButton>
-  </header>
+      <PThemeSwitcher
+        size="xs"
+        variant="ghost"
+      />
 
-  <div class="page flex items-center gap-4">
-    <todo-list />
+      <PLinkButton
+        icon
+        size="xs"
+        align="center"
+        variant="ghost"
+        href="https://github.com/Stan-BK/notice-book-repo"
+        target="_blank"
+      >
+        <LogoGithubSmallIcon />
+      </PLinkButton>
+
+      <PButton
+        icon
+        size="xs"
+        align="center"
+        variant="ghost"
+        @click="tryReload"
+      >
+        <RefreshClockwiseIcon />
+      </PButton>
+    </header>
 
     <PScrollable
-      class="day-list-wrap flex-1 h-full"
-      content-class="p-1"
+      class="page flex-1 flex"
+      content-class="flex gap-4 p-px"
     >
-      <tmr-list />
-      <today-list />
-      <yday-list />
-    </PScrollable>
-  </div>
-  <PScrollable class="page flex gap-4 mt-40px pt-0">
-    <div class="p-px flex-col h-full">
       <todo-list />
-      
-      <tmr-list />
-      <today-list />
-      <yday-list />
-      <div class="take-place" />  
-    </div>
-  </PScrollable>
 
-  <PModal
-    v-model="isVisible"
-    title="Subscription"
-    header-stylize
-    :loading="isLoading"
-    :close-on-click-overlay="!isLoading"
-  >
-    <PText> {{ installMessages.modalMsg }} </PText>
-
-    <template #footer>
-      <PButton
-        :disabled="isLoading"
-        @click="handleClose"
+      <Component
+        :is="isSmUp ? 'PScrollable' : 'div'"
+        style="height: calc(100vh - 60px);"
+        class="day-list-wrap flex-1 p-px"
+        content-class="p-px flex-1"
       >
-        Cancel
-      </PButton>
+        <tmr-list />
+        <today-list />
+        <yday-list />
+      </Component>
+    </PScrollable>
 
-      <PButton
-        variant="primary"
-        :loading="isLoading"
-        @click="handleConfirm"
-      >
-        Confirm
-      </PButton>
-    </template>
-  </PModal>
+    <PModal
+      v-model="isVisible"
+      title="Subscription"
+      :loading="isLoading"
+      close-on-click-overlay
+      header-stylize
+    >
+      <PText> {{ installMessages.modalMsg }} </PText>
+
+      <template #footer>
+        <PButton
+          :disabled="isLoading"
+          @click="handleClose"
+        >
+          Cancel
+        </PButton>
+
+        <PButton
+          variant="primary"
+          :loading="isLoading"
+          @click="handleConfirm"
+        >
+          Confirm
+        </PButton>
+      </template>
+    </PModal>
+  </div>
 </template>
 
 <style scoped lang="less">
-body {
-  overflow: hidden;
-}
-.page {
-  width: 100vw;
+.wrapper {
   height: 100vh;
-  padding: 40px 20px 20px;
-
-  &:nth-of-type(2) {
-    display: none;
-    padding-top: 0;
-    margin-top: 40px;
-    height: calc(100vh - 40px);
-  }
-}
-
-.day-list-wrap {
-  width: calc(50% - 10px);
-}
-
-.take-place {
-  height: 2px;
+  padding: 1px 16px 16px;
 }
 
 @media screen and (max-width: 768px) {
-  .page {
+  :deep(.page > .pxd-scrollable--content) {
     flex-direction: column;
-
-    &:nth-of-type(1) {
-      display: none;
-    }
-    &:nth-of-type(2) {
-      display: flex;
-    }
   }
 
   :deep(.todo-list) {
-    width: 100%;
-  }
-
-  .day-list-wrap {
     width: 100%;
   }
 }
