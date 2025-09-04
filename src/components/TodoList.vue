@@ -56,7 +56,7 @@ function removeNotice() {
     </template>
 
     <PScrollable class="w-full">
-      <nt-list :notices="todoList" />
+      <nt-list v-model="todoList" />
     </PScrollable>
   </nt-card>
 </template>
