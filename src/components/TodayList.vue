@@ -39,8 +39,8 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
 <style scoped>
 .today-list {
   height: calc(48% - 40px);
-  border-radius: 20px;
-  padding: 50px 20px 20px;
+  border-radius: 16px;
+  padding: 50px 16px 16px;
 }
 .remark {
   font-size: 12px;

@@ -49,7 +49,11 @@ const emits = defineEmits<{
 
 <style scoped lang="less">
 .notice-card + .notice-card {
-  margin-top: 20px;
+  margin-top: 16px;
+}
+
+.notice-card {
+  min-height: 300px;
 }
 
 .title {

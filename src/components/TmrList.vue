@@ -24,6 +24,6 @@ import { tmrList, toggleItems } from '../libs'
 <style scoped>
 .TmrList {
   height: calc(48% - 40px);
-  padding: 50px 20px 20px;
+  padding: 50px 16px 16px;
 }
 </style>
