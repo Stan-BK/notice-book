@@ -15,7 +15,7 @@ import { ydayList, toggleItems } from '../libs'
     </template>
 
     <PScrollable class="w-full">
-      <nt-list :notices="ydayList" />
+      <nt-list v-model="ydayList" />
     </PScrollable>
   </nt-card>
 </template>
