@@ -19,7 +19,7 @@ const emits = defineEmits<{
     gap="1"
   >
     <div class="w-full flex justify-between items-center">
-      <span class="title">
+      <span class="title font-medium">
         <slot name="title" />
       </span>
 
@@ -48,17 +48,12 @@ const emits = defineEmits<{
 </template>
 
 <style scoped lang="less">
-.notice-card + .notice-card {
-  margin-top: 16px;
-}
-
 .notice-card {
   min-height: 300px;
 }
 
 .title {
-  font-size: 1.6em;
-  font-weight: bold;
+  font-size: 1.5em;
 }
 
 .port {
