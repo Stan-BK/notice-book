@@ -1,0 +1,7 @@
+name = "notice-book"
+pages_build_output_dir = "./dist"
+compatibility_date = "2025-05-13"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+SUBSCRIPTION_PATH = "[your_domain]/worker"

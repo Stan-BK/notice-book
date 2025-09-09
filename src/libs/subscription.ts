@@ -4,7 +4,13 @@ const SW = import.meta.env.MODE === 'production' ? '/sw.js' : '/src/sw.ts'
 
 const SCOPE = import.meta.env.MODE === 'production' ? '/' : '/src/'
 
-export const SUBSCRIPTION_PATH = import.meta.env.VITE_SUBSCRIPTION_PATH ?? ''
+let SUBSCRIPTION_PATH = ''
+
+export async function getSubscriptionPath() {
+  if (!SUBSCRIPTION_PATH)
+    SUBSCRIPTION_PATH = await fetch('/getVars').then(res => res.text())
+  return SUBSCRIPTION_PATH
+}
 
 let swr: ServiceWorkerRegistration | undefined
 let temporaryId: number
@@ -79,7 +85,7 @@ export async function subscribe() {
       applicationServerKey: publicKey,
     })
     .then(async (sub) =>
-      fetch(SUBSCRIPTION_PATH + '/subscribe', {
+      fetch(await getSubscriptionPath() + '/subscribe', {
         method: 'POST',
         body: JSON.stringify({
           temporaryId,
@@ -104,8 +110,8 @@ export async function subscribe() {
 export async function unsubscribe() {
   return swr!.pushManager
     .getSubscription()
-    .then((sub) =>
-      fetch(SUBSCRIPTION_PATH + '/unsubscribe', {
+    .then(async (sub) =>
+      fetch(await getSubscriptionPath() + '/unsubscribe', {
         method: 'POST',
         body: JSON.stringify({
           endpoint: sub?.endpoint,
@@ -127,7 +133,7 @@ export async function unsubscribe() {
 }
 
 async function generateVAPIDKeys() {
-  return await fetch(SUBSCRIPTION_PATH + '/generateVAPIDKeys', {
+  return await fetch(await getSubscriptionPath() + '/generateVAPIDKeys', {
     body: JSON.stringify((temporaryId = Date.now())),
     method: 'POST',
   })

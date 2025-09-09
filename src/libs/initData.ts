@@ -1,4 +1,4 @@
-import { SUBSCRIPTION_PATH, endpoint, isInstalled } from '.'
+import { endpoint, getSubscriptionPath, isInstalled } from '.'
 import { todoList, todayList, ydayList, tmrList, NoticeType } from './data'
 import { watch } from 'vue'
 import { loadFromStorage, setStorage } from './storage'
@@ -32,7 +32,7 @@ function initFromStorage() {
 
 async function initFromServer() {
   const [todoList, todayList, ydayList, tmrList] = await Promise.all(noticeLists.map(async list =>
-    await fetch(`${SUBSCRIPTION_PATH}/noticeList?type=${noticePool.get(list)}`, {
+    await fetch(`${await getSubscriptionPath()}/noticeList?type=${noticePool.get(list)}`, {
       method: 'POST',
       body: JSON.stringify({
         endPoint: endpoint
@@ -118,8 +118,8 @@ export function updateAllNoticeList() {
   updateNoticeList(todoList)
 }
 
-function updateNoticeList(list: NoticeType[]) {
-  fetch(`${SUBSCRIPTION_PATH}/update?type=${noticePool.get(list)}`, {
+async function updateNoticeList(list: NoticeType[]) {
+  fetch(`${await getSubscriptionPath()}/update?type=${noticePool.get(list)}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
