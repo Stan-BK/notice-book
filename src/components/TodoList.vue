@@ -28,7 +28,7 @@ function removeNotice() {
 </script>
 
 <template>
-  <nt-card class="todo-list w-full h-full">
+  <nt-card class="todo-list h-full">
     <template #title>
       Todo List
     </template>

@@ -9,7 +9,8 @@ a {
 html,
 body,
 #app {
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
 }
 
 body {
@@ -17,8 +18,8 @@ body {
 }
 
 ul {
-  padding: 0;
   margin: 0;
+  padding-inline: 0;
 }
 
 input {

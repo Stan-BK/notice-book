@@ -83,7 +83,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="wrapper flex flex-col">
+  <div class="wrapper h-full flex flex-col font-sans">
     <PMessage />
 
     <header
@@ -128,20 +128,22 @@ onMounted(async () => {
     </header>
 
     <PScrollable
-      class="page flex-1 flex"
-      content-class="flex gap-4 p-px"
+      class="page flex-1 flex mt-2"
+      content-class="flex gap-4 p-px flex-col sm:flex-row"
     >
       <todo-list />
 
       <Component
         :is="isSmUp ? 'PScrollable' : 'div'"
-        style="height: calc(100vh - 60px);"
-        class="day-list-wrap flex-1 p-px"
-        content-class="p-px flex-1"
+        style="height: calc(100vh - 70px);"
+        class="day-list-wrap flex-1"
+        content-class="flex-1"
       >
-        <tmr-list />
-        <today-list />
-        <yday-list />
+        <PStack class="p-px">
+          <tmr-list />
+          <today-list />
+          <yday-list />
+        </PStack>
       </Component>
     </PScrollable>
 
@@ -149,8 +151,8 @@ onMounted(async () => {
       v-model="isVisible"
       title="Subscription"
       :loading="isLoading"
-      close-on-click-overlay
       header-stylize
+      close-on-click-overlay
     >
       <PText> {{ installMessages.modalMsg }} </PText>
 
@@ -176,15 +178,10 @@ onMounted(async () => {
 
 <style scoped lang="less">
 .wrapper {
-  height: 100vh;
   padding: 1px 16px 16px;
 }
 
 @media screen and (max-width: 768px) {
-  :deep(.page > .pxd-scrollable--content) {
-    flex-direction: column;
-  }
-
   :deep(.todo-list) {
     width: 100%;
   }
