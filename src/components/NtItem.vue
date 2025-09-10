@@ -39,7 +39,7 @@ const noticeTime = computed({
 
     <PTimePicker
       v-model="noticeTime"
-      style="width: 85px"
+      style="width: 82px"
       :prefix-icon="false"
     />
   </li>
