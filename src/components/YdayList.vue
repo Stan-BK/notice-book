@@ -22,7 +22,7 @@ import { ydayList, toggleItems } from '../libs'
 
 <style scoped>
 .YdayList {
-  height: calc(48% - 40px);
+  height: calc(33.33vh - 35px);
   padding: 50px 16px 16px;
 }
 </style>
