@@ -83,7 +83,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="wrapper h-full flex flex-col font-sans">
+  <div class="wrapper h-full flex flex-col">
     <PMessage />
 
     <header
@@ -151,11 +151,10 @@ onMounted(async () => {
       v-model="isVisible"
       title="Subscription"
       :loading="isLoading"
-      header-stylize
+      :subtitle="installMessages.modalMsg"
+      close-on-press-escape
       close-on-click-overlay
     >
-      <PText> {{ installMessages.modalMsg }} </PText>
-
       <template #footer>
         <PButton
           :disabled="isLoading"

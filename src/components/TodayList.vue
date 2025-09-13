@@ -23,8 +23,8 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
           color: todayList.length && isInstalled ? '#1a9338' : 'var(--color-gray-600)'
         }"
       >
-        {{ 
-          isInstalled ? 
+        {{
+          isInstalled ?
             `${todayList.length} notice today` : `haven't subscription`
         }}
       </span>
@@ -38,7 +38,7 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
 
 <style scoped>
 .today-list {
-  height: calc(48% - 40px);
+  height: calc(33.33vh - 35px);
   border-radius: 16px;
   padding: 50px 16px 16px;
 }
