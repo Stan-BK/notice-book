@@ -27,6 +27,8 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
       self.registration.showNotification(noticeName, {
         body: description,
+        // @ts-ignore
+        vibrate: [200, 100, 200]
       })
     )
   }
