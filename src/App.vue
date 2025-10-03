@@ -180,7 +180,7 @@ onMounted(async () => {
   padding: 1px 16px 16px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 639px) {
   :deep(.todo-list) {
     width: 100%;
   }
