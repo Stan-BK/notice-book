@@ -4,7 +4,7 @@ import NtItem from './NtItem.vue'
 import { defineModel } from 'vue'
 
 defineProps<{
-  hasRepeatProp: boolean
+  hasRepeatProp?: boolean
 }>()
 
 const notices = defineModel<NoticeType[]>({

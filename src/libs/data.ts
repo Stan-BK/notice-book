@@ -7,7 +7,7 @@ export interface NoticeType {
   isChosen: boolean
   hour: number
   minute: number
-  isRepeat: boolean
+  isRepeat?: boolean
 }
 
 export const todoList: NoticeType[] = reactive([])

@@ -3,7 +3,7 @@ import type { NoticeType } from '../libs/data.js'
 import { computed, defineModel } from 'vue'
 
 defineProps<{
-  hasRepeatProp: boolean
+  hasRepeatProp?: boolean
 }>()
 
 const noticeData = defineModel<NoticeType>({
