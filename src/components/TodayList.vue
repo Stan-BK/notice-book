@@ -31,7 +31,10 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
     </template>
 
     <PScrollable class="w-full">
-      <nt-list v-model="todayList" />
+      <nt-list
+        v-model="todayList"
+        :has-repeat-prop="true"
+      />
     </PScrollable>
   </nt-card>
 </template>

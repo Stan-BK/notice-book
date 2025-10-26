@@ -3,6 +3,10 @@ import { NoticeType } from '../libs'
 import NtItem from './NtItem.vue'
 import { defineModel } from 'vue'
 
+defineProps<{
+  hasRepeatProp: boolean
+}>()
+
 const notices = defineModel<NoticeType[]>({
   default: []
 })
@@ -18,6 +22,7 @@ const notices = defineModel<NoticeType[]>({
       v-for="(notice, index) in notices"
       :key="notice.id"
       v-model="notices[index]"
+      :has-repeat-prop="hasRepeatProp"
     />
   </TransitionGroup>
 </template>

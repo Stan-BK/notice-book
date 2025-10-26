@@ -2,6 +2,10 @@
 import type { NoticeType } from '../libs/data.js'
 import { computed, defineModel } from 'vue'
 
+defineProps<{
+  hasRepeatProp: boolean
+}>()
+
 const noticeData = defineModel<NoticeType>({
   default: () => ({}) as NoticeType
 })
@@ -36,6 +40,21 @@ const noticeTime = computed({
       class="notice-input description"
       style="resize: none"
     />
+
+    <PPopover
+      content-class="bg-gray-1000 rounded-md p-2 text-sm text-gray-100"
+      position="top"
+    >
+      <PToggle
+        v-if="hasRepeatProp"
+        v-model="noticeData.isRepeat"
+        class="datetime"
+        active-label="Repeat"
+      />
+      <template #content>
+        {{ noticeData.isRepeat ? 'This notice will repeat daily.' : 'This notice will not repeat daily.' }}
+      </template>
+    </PPopover>
 
     <PTimePicker
       v-model="noticeTime"
