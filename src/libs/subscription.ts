@@ -13,7 +13,7 @@ export async function getSubscriptionPath() {
 }
 
 export async function getTimeRange() {
-  return await fetch('/getTimeRange').then(res => res.json()) as number[]
+  return await fetch(`${await getSubscriptionPath()}/getTimeRange`).then(res => res.json()) as number[]
 }
 
 let swr: ServiceWorkerRegistration | undefined
