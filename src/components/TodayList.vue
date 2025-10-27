@@ -1,8 +1,36 @@
 <script setup lang="ts">
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { isInstalled, todayList, toggleItems } from '../libs'
+import { getTimeRange, isInstalled, todayList, toggleItems } from '../libs'
 import SettingsGearIcon from '@gdsicon/vue/settings-gear'
+import { onUnmounted, ref } from 'vue'
+import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
+dayjs.extend(isBetween)
+
+let intervalId: number | null = null
+const startOfDay = dayjs().startOf('day')
+const timeRange = ref([startOfDay, startOfDay])
+const isInTimeRange = ref(true)
+getTimeRange().then((range) => {
+  if (range && range.length === 2) {
+    intervalId = setInterval(() => {
+      const startOfDayVal = startOfDay.valueOf()
+      timeRange.value = [dayjs(startOfDayVal + range[0]), dayjs(startOfDayVal + range[1])]
+      if (dayjs().isBetween(timeRange.value[0], timeRange.value[1])) {
+        isInTimeRange.value = true
+      } else {
+        isInTimeRange.value = false
+      }
+    }, 1000)
+  }
+})
+
+onUnmounted(() => {
+  if (intervalId) {
+    clearInterval(intervalId)
+  }
+})
 </script>
 
 <template>
@@ -14,7 +42,7 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
     <template #title>
       Today
       <settings-gear-icon
-        :class="todayList.length && isInstalled && 'scroll'"
+        :class="todayList.length && isInTimeRange && isInstalled && 'scroll'"
         style="font-size: 14px;"
       />
       <span
@@ -24,9 +52,10 @@ import SettingsGearIcon from '@gdsicon/vue/settings-gear'
         }"
       >
         {{
-          isInstalled ?
-            `${todayList.length} notice today` : `haven't subscription`
+          !isInstalled ?
+            `haven't subscription` : isInTimeRange ? `Out of time range` : `Notice in time range will be noticed`
         }}
+        {{ `(Active time range: ${timeRange[0].format('HH:mm')} - ${timeRange[1].format('HH:mm')})` }}
       </span>
     </template>
 

@@ -12,6 +12,10 @@ export async function getSubscriptionPath() {
   return SUBSCRIPTION_PATH
 }
 
+export async function getTimeRange() {
+  return await fetch('/getTimeRange').then(res => res.json()) as number[]
+}
+
 let swr: ServiceWorkerRegistration | undefined
 let temporaryId: number
 export let endpoint: string | null
