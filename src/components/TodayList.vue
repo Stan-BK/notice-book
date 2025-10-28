@@ -3,7 +3,7 @@ import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
 import { getTimeRange, isInstalled, todayList, toggleItems } from '../libs'
 import SettingsGearIcon from '@gdsicon/vue/settings-gear'
-import { onUnmounted, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 dayjs.extend(isBetween)
@@ -12,6 +12,10 @@ let intervalId: number | null = null
 const startOfDay = dayjs().startOf('day')
 const timeRange = ref([startOfDay, startOfDay])
 const isInTimeRange = ref(true)
+const isActive = computed(() =>
+  isInstalled.value && isInTimeRange.value && todayList.length
+)
+
 getTimeRange().then((range) => {
   if (range && range.length === 2) {
     intervalId = setInterval(() => {
@@ -42,20 +46,30 @@ onUnmounted(() => {
     <template #title>
       Today
       <settings-gear-icon
-        :class="todayList.length && isInTimeRange && isInstalled && 'scroll'"
-        style="font-size: 14px;"
+        :class="isActive && 'scroll'"
+        style="font-size: 14px"
       />
       <span
         class="remark"
         :style="{
-          color: todayList.length && isInstalled ? '#1a9338' : 'var(--color-gray-600)'
+          color:
+            isActive
+              ? '#1a9338'
+              : 'var(--color-gray-600)',
         }"
       >
         {{
-          !isInstalled ?
-            `haven't subscription` : isInTimeRange ? `Out of time range` : `Notice in time range will be noticed`
+          !isInstalled
+            ? `haven't subscription`
+            : !isInTimeRange
+              ? `Out of time range`
+              : `Notice in time range will be noticed`
         }}
-        {{ `(Active time range: ${timeRange[0].format('HH:mm')} - ${timeRange[1].format('HH:mm')})` }}
+        {{
+          `(Active time range: ${timeRange[0].format(
+            "HH:mm"
+          )} - ${timeRange[1].format("HH:mm")})`
+        }}
       </span>
     </template>
 
@@ -78,7 +92,7 @@ onUnmounted(() => {
   font-size: 12px;
   margin-left: 12px;
   opacity: 0.8;
-  transition: .2s;
+  transition: 0.2s;
 }
 .scroll {
   /* spin animate from tailwindcss */
