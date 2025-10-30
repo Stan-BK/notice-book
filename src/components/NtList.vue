@@ -8,22 +8,13 @@ defineProps<{
 }>()
 
 const notices = defineModel<NoticeType[]>({
-  default: []
+  default: [],
 })
 </script>
 
 <template>
-  <TransitionGroup
-    name="list"
-    tag="ul"
-    class="notice-list w-full flex-1 list-none outline-none"
-  >
-    <NtItem
-      v-for="(notice, index) in notices"
-      :key="notice.id"
-      v-model="notices[index]"
-      :has-repeat-prop="hasRepeatProp"
-    />
+  <TransitionGroup name="list" tag="ul" class="notice-list w-full flex-1 list-none outline-none">
+    <NtItem v-for="(notice, index) in notices" :key="notice.id" v-model="notices[index]" :has-repeat-prop="hasRepeatProp" />
   </TransitionGroup>
 </template>
 

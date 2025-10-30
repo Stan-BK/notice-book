@@ -7,13 +7,12 @@ const SCOPE = import.meta.env.MODE === 'production' ? '/' : '/src/'
 let SUBSCRIPTION_PATH = ''
 
 export async function getSubscriptionPath() {
-  if (!SUBSCRIPTION_PATH)
-    SUBSCRIPTION_PATH = await fetch('/getVars').then(res => res.text())
+  if (!SUBSCRIPTION_PATH) SUBSCRIPTION_PATH = await fetch('/getVars').then((res) => res.text())
   return SUBSCRIPTION_PATH
 }
 
 export async function getTimeRange() {
-  return await fetch(`${await getSubscriptionPath()}/getTimeRange`).then(res => res.json()) as number[]
+  return (await fetch(`${await getSubscriptionPath()}/getTimeRange`).then((res) => res.json())) as number[]
 }
 
 let swr: ServiceWorkerRegistration | undefined
@@ -89,7 +88,7 @@ export async function subscribe() {
       applicationServerKey: publicKey,
     })
     .then(async (sub) =>
-      fetch(await getSubscriptionPath() + '/subscribe', {
+      fetch((await getSubscriptionPath()) + '/subscribe', {
         method: 'POST',
         body: JSON.stringify({
           temporaryId,
@@ -104,7 +103,7 @@ export async function subscribe() {
         })
         .catch(() => {
           throw new Error('subscribe from server error')
-        })
+        }),
     )
     .catch((err) => {
       throw err
@@ -115,7 +114,7 @@ export async function unsubscribe() {
   return swr!.pushManager
     .getSubscription()
     .then(async (sub) =>
-      fetch(await getSubscriptionPath() + '/unsubscribe', {
+      fetch((await getSubscriptionPath()) + '/unsubscribe', {
         method: 'POST',
         body: JSON.stringify({
           endpoint: sub?.endpoint,
@@ -129,7 +128,7 @@ export async function unsubscribe() {
         })
         .catch(() => {
           throw new Error('unsubscribe from server error')
-        })
+        }),
     )
     .catch((err) => {
       throw err
@@ -137,7 +136,7 @@ export async function unsubscribe() {
 }
 
 async function generateVAPIDKeys() {
-  return await fetch(await getSubscriptionPath() + '/generateVAPIDKeys', {
+  return await fetch((await getSubscriptionPath()) + '/generateVAPIDKeys', {
     body: JSON.stringify((temporaryId = Date.now())),
     method: 'POST',
   })
@@ -169,9 +168,7 @@ function updateServiceWorker() {
 // https://bugs.chromium.org/p/chromium/issues/detail?id=802280
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/')
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/')
 
   const rawData = window.atob(base64)
   const outputArray = new Uint8Array(rawData.length)

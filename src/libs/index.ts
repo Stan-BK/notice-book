@@ -5,8 +5,8 @@ export * from './notification'
 export * from './data'
 
 export function toggleItems(targetList: NoticeType[]) {
-  const todoChosenList = todoList.reduce((prev: NoticeType[], cur) => cur.isChosen ? prev.concat(cur) : prev, [])
-  const targetChosenList = targetList.reduce((prev: NoticeType[], cur) => cur.isChosen ? prev.concat(cur) : prev, [])
+  const todoChosenList = todoList.reduce((prev: NoticeType[], cur) => (cur.isChosen ? prev.concat(cur) : prev), [])
+  const targetChosenList = targetList.reduce((prev: NoticeType[], cur) => (cur.isChosen ? prev.concat(cur) : prev), [])
 
   for (let i = 0; i < todoList.length; ) {
     if (todoList[i].isChosen) {
@@ -22,8 +22,8 @@ export function toggleItems(targetList: NoticeType[]) {
       continue
     }
     i++
-  } 
-  
+  }
+
   todoList.push(...targetChosenList)
   targetList.push(...todoChosenList)
 }

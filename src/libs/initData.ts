@@ -12,63 +12,77 @@ export type NoticeListCollection = {
 
 const noticeLists = [todoList, todayList, ydayList, tmrList]
 
-const noticePool = new Map<NoticeType[], string>([[todoList, 'all'], [todayList, 'today'], [ydayList, 'yesterday'], [tmrList, 'tomorrow']])
+const noticePool = new Map<NoticeType[], string>([
+  [todoList, 'all'],
+  [todayList, 'today'],
+  [ydayList, 'yesterday'],
+  [tmrList, 'tomorrow'],
+])
 
 function initFromStorage() {
-  const {
-    todayList = [],
-    todoList = [],
-    tmrList = [],
-    ydayList = []
-  } = loadFromStorage() ?? {}
+  const { todayList = [], todoList = [], tmrList = [], ydayList = [] } = loadFromStorage() ?? {}
 
   initDataList({
     todoList,
     todayList,
     ydayList,
-    tmrList
+    tmrList,
   })
 }
 
 async function initFromServer() {
-  const [todoList, todayList, ydayList, tmrList] = await Promise.all(noticeLists.map(async list =>
-    await fetch(`${await getSubscriptionPath()}/noticeList?type=${noticePool.get(list)}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        endPoint: endpoint
-      }),
-    }).then(res => res.json()) as NoticeType[]
-  ))
+  const [todoList, todayList, ydayList, tmrList] = await Promise.all(
+    noticeLists.map(
+      async (list) =>
+        (await fetch(`${await getSubscriptionPath()}/noticeList?type=${noticePool.get(list)}`, {
+          method: 'POST',
+          body: JSON.stringify({
+            endPoint: endpoint,
+          }),
+        }).then((res) => res.json())) as NoticeType[],
+    ),
+  )
   initDataList({
     todoList,
     todayList,
     ydayList,
-    tmrList
+    tmrList,
   })
 }
 
-export async function initDataList({
-  todayList: todayL,
-  tmrList: tmrL,
-  todoList: todoL,
-  ydayList: ydayL
-}: NoticeListCollection) {
-  todoList.splice(0, todoList.length, ...(todoL.map(notice => {
-    notice.isChosen = false
-    return notice
-  })))
-  todayList.splice(0, todayList.length, ...(todayL.map(notice => {
-    notice.isChosen = false
-    return notice
-  })))
-  ydayList.splice(0, ydayList.length, ...(ydayL.map(notice => {
-    notice.isChosen = false
-    return notice
-  })))
-  tmrList.splice(0, tmrList.length, ...(tmrL.map(notice => {
-    notice.isChosen = false
-    return notice
-  })))
+export async function initDataList({ todayList: todayL, tmrList: tmrL, todoList: todoL, ydayList: ydayL }: NoticeListCollection) {
+  todoList.splice(
+    0,
+    todoList.length,
+    ...todoL.map((notice) => {
+      notice.isChosen = false
+      return notice
+    }),
+  )
+  todayList.splice(
+    0,
+    todayList.length,
+    ...todayL.map((notice) => {
+      notice.isChosen = false
+      return notice
+    }),
+  )
+  ydayList.splice(
+    0,
+    ydayList.length,
+    ...ydayL.map((notice) => {
+      notice.isChosen = false
+      return notice
+    }),
+  )
+  tmrList.splice(
+    0,
+    tmrList.length,
+    ...tmrL.map((notice) => {
+      notice.isChosen = false
+      return notice
+    }),
+  )
 
   watchData()
 }
@@ -82,33 +96,49 @@ export async function initData() {
 }
 
 function watchData() {
-  watch(tmrList, () => {
-    throttleUpdateNoticeList(tmrList)
-  }, {
-    deep: true,
-    immediate: true,
-  })
+  watch(
+    tmrList,
+    () => {
+      throttleUpdateNoticeList(tmrList)
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  )
 
-  watch(todayList, () => {
-    throttleUpdateNoticeList(todayList)
-  }, {
-    deep: true,
-    immediate: true,
-  })
+  watch(
+    todayList,
+    () => {
+      throttleUpdateNoticeList(todayList)
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  )
 
-  watch(todoList, () => {
-    throttleUpdateNoticeList(todoList)
-  }, {
-    deep: true,
-    immediate: true,
-  })
+  watch(
+    todoList,
+    () => {
+      throttleUpdateNoticeList(todoList)
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  )
 
-  watch(ydayList, () => {
-    throttleUpdateNoticeList(ydayList)
-  }, {
-    deep: true,
-    immediate: true,
-  })
+  watch(
+    ydayList,
+    () => {
+      throttleUpdateNoticeList(ydayList)
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  )
 }
 
 export function updateAllNoticeList() {
@@ -122,12 +152,12 @@ async function updateNoticeList(list: NoticeType[]) {
   fetch(`${await getSubscriptionPath()}/update?type=${noticePool.get(list)}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       endPoint: endpoint,
-      noticeList: list
-    })
+      noticeList: list,
+    }),
   })
 }
 
@@ -135,6 +165,7 @@ let timer: number
 const batchPoll = new Map<NoticeType[], boolean>()
 function throttleUpdateNoticeList(list: NoticeType[]) {
   clearTimeout(timer)
+
   batchPoll.set(list, true)
   timer = setTimeout(() => {
     batchPoll.forEach((isNeedUpdate, value) => {
@@ -142,7 +173,10 @@ function throttleUpdateNoticeList(list: NoticeType[]) {
         updateNoticeList(value)
       }
     })
-    batchPoll.set(list, false)
+
+    batchPoll.keys().forEach((list) => {
+      batchPoll.set(list, false)
+    })
 
     setStorage()
   }, 1000)

@@ -5,14 +5,8 @@ import { ydayList, toggleItems } from '../libs'
 </script>
 
 <template>
-  <nt-card
-    :is-need-port="true"
-    class="YdayList"
-    @toggle="() => toggleItems(ydayList)"
-  >
-    <template #title>
-      Y'day
-    </template>
+  <nt-card :is-need-port="true" class="YdayList" @toggle="() => toggleItems(ydayList)">
+    <template #title> Y'day </template>
 
     <PScrollable class="w-full">
       <nt-list v-model="ydayList" />

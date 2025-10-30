@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,14 +10,14 @@
     <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF" />
     <title>Notice Book</title>
     <script>
-      (function () {
-        if (typeof window === "undefined") return;
-        let p = matchMedia("(prefers-color-scheme:dark)").matches;
-        let s = localStorage.getItem("fe.system.color-scheme") || "auto";
-        if (s === "dark" || (p && s === "auto")) {
-          document.documentElement.classList.toggle("dark", true);
+      ;(function () {
+        if (typeof window === 'undefined') return
+        let p = matchMedia('(prefers-color-scheme:dark)').matches
+        let s = localStorage.getItem('fe.system.color-scheme') || 'auto'
+        if (s === 'dark' || (p && s === 'auto')) {
+          document.documentElement.classList.toggle('dark', true)
         }
-      })();
+      })()
     </script>
   </head>
 

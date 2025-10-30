@@ -12,12 +12,12 @@ function addNotice() {
     description: '',
     isChosen: false,
     hour: 0,
-    minute: 0
+    minute: 0,
   })
 }
 
 function removeNotice() {
-  for (let i = 0; i < todoList.length;) {
+  for (let i = 0; i < todoList.length; ) {
     if (todoList[i].isChosen) {
       todoList.splice(i, 1)
     } else {
@@ -29,27 +29,15 @@ function removeNotice() {
 
 <template>
   <nt-card class="todo-list h-full">
-    <template #title>
-      Todo List
-    </template>
+    <template #title> Todo List </template>
 
     <template #control-bar>
       <div class="flex items-center gap-2">
-        <PButton
-          icon
-          size="sm"
-          variant="ghost"
-          @click="addNotice"
-        >
+        <PButton icon size="sm" variant="ghost" @click="addNotice">
           <PlusIcon />
         </PButton>
 
-        <PButton
-          icon
-          size="sm"
-          variant="ghost"
-          @click="removeNotice"
-        >
+        <PButton icon size="sm" variant="ghost" @click="removeNotice">
           <MinusIcon />
         </PButton>
       </div>

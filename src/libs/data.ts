@@ -10,7 +10,7 @@ export interface NoticeType {
   isRepeat?: boolean
 }
 
-export const todoList: NoticeType[] = reactive([])
-export const tmrList: NoticeType[] = reactive([])
-export const todayList: NoticeType[] = reactive([])
-export const ydayList: NoticeType[] = reactive([])
+export const todoList = reactive<NoticeType[]>([])
+export const tmrList = reactive<NoticeType[]>([])
+export const todayList = reactive<NoticeType[]>([])
+export const ydayList = reactive<NoticeType[]>([])

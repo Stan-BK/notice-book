@@ -7,7 +7,7 @@ defineProps<{
 }>()
 
 const noticeData = defineModel<NoticeType>({
-  default: () => ({}) as NoticeType
+  default: () => ({}) as NoticeType,
 })
 
 const noticeTime = computed({
@@ -19,48 +19,26 @@ const noticeTime = computed({
 
     noticeData.value.hour = Number(hour)
     noticeData.value.minute = Number(minute)
-  }
+  },
 })
-
 </script>
 
 <template>
-  <li
-    class="notice-list-item flex items-center gap-3"
-  >
+  <li class="notice-list-item flex items-center gap-3">
     <PCheckbox v-model="noticeData.isChosen" />
 
-    <PInput
-      v-model="noticeData.noticeName"
-      class="noticeName"
-    />
+    <PInput v-model="noticeData.noticeName" class="noticeName" />
 
-    <textarea
-      v-model="noticeData.description"
-      class="notice-input description"
-      style="resize: none"
-    />
+    <textarea v-model="noticeData.description" class="notice-input description" style="resize: none" />
 
-    <PPopover
-      content-class="bg-gray-1000 rounded-md p-2 text-sm text-gray-100"
-      position="top"
-    >
-      <PToggle
-        v-if="hasRepeatProp"
-        v-model="noticeData.isRepeat"
-        class="datetime"
-        active-label="Repeat"
-      />
+    <PPopover content-class="bg-gray-1000 rounded-md p-2 text-sm text-gray-100" position="top">
+      <PToggle v-if="hasRepeatProp" v-model="noticeData.isRepeat" class="datetime" active-label="Repeat" />
       <template #content>
         {{ noticeData.isRepeat ? 'This notice will repeat daily.' : 'This notice will not repeat daily.' }}
       </template>
     </PPopover>
 
-    <PTimePicker
-      v-model="noticeTime"
-      style="width: 82px"
-      :prefix-icon="false"
-    />
+    <PTimePicker v-model="noticeTime" style="width: 82px" :prefix-icon="false" />
   </li>
 </template>
 
@@ -87,7 +65,9 @@ const noticeTime = computed({
     outline: none;
     border: 2px dashed transparent;
     border-radius: 4px;
-    transition: border-color 0.4s, height 0.2s;
+    transition:
+      border-color 0.4s,
+      height 0.2s;
     &:hover {
       border-color: var(--hover-color);
     }

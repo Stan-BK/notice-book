@@ -2,22 +2,16 @@
 import ArrowRightIcon from '@gdsicon/vue/arrow-left-right'
 
 defineProps<{
-  isNeedPort?: boolean;
+  isNeedPort?: boolean
 }>()
 
 const emits = defineEmits<{
-  (e: 'toggle'): void;
+  (e: 'toggle'): void
 }>()
 </script>
 
 <template>
-  <PMaterial
-    variant="large"
-    class="notice-card relative"
-    direction="vertical"
-    :wrap="false"
-    gap="1"
-  >
+  <PMaterial variant="large" class="notice-card relative" direction="vertical" :wrap="false" gap="1">
     <div class="w-full flex justify-between items-center">
       <span class="title font-medium">
         <slot name="title" />
@@ -28,15 +22,8 @@ const emits = defineEmits<{
       </div>
     </div>
 
-
-    <div
-      v-if="isNeedPort"
-      class="port"
-    >
-      <PButton
-        size="sm"
-        @click="() => emits('toggle')"
-      >
+    <div v-if="isNeedPort" class="port">
+      <PButton size="sm" @click="() => emits('toggle')">
         <ArrowRightIcon class="mr-1" />
 
         Toggle

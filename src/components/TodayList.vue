@@ -12,9 +12,7 @@ let intervalId: number | null = null
 const startOfDay = dayjs().startOf('day')
 const timeRange = ref([startOfDay, startOfDay])
 const isInTimeRange = ref(true)
-const isActive = computed(() =>
-  isInstalled.value && isInTimeRange.value && todayList.length
-)
+const isActive = computed(() => isInstalled.value && isInTimeRange.value && todayList.length)
 
 getTimeRange().then((range) => {
   if (range && range.length === 2) {
@@ -38,46 +36,23 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nt-card
-    :is-need-port="true"
-    class="today-list"
-    @toggle="() => toggleItems(todayList)"
-  >
+  <nt-card :is-need-port="true" class="today-list" @toggle="() => toggleItems(todayList)">
     <template #title>
       Today
-      <settings-gear-icon
-        :class="isActive && 'scroll'"
-        style="font-size: 14px"
-      />
+      <settings-gear-icon :class="isActive && 'scroll'" style="font-size: 14px" />
       <span
         class="remark"
         :style="{
-          color:
-            isActive
-              ? '#1a9338'
-              : 'var(--color-gray-600)',
+          color: isActive ? '#1a9338' : 'var(--color-gray-600)',
         }"
       >
-        {{
-          !isInstalled
-            ? `haven't subscription`
-            : !isInTimeRange
-              ? `Out of time range`
-              : `Notice in time range will be noticed`
-        }}
-        {{
-          `(Active time range: ${timeRange[0].format(
-            "HH:mm"
-          )} - ${timeRange[1].format("HH:mm")})`
-        }}
+        {{ !isInstalled ? `haven't subscription` : !isInTimeRange ? `Out of time range` : `Notice in time range will be noticed` }}
+        {{ `(Active time range: ${timeRange[0].format('HH:mm')} - ${timeRange[1].format('HH:mm')})` }}
       </span>
     </template>
 
     <PScrollable class="w-full">
-      <nt-list
-        v-model="todayList"
-        :has-repeat-prop="true"
-      />
+      <nt-list v-model="todayList" :has-repeat-prop="true" />
     </PScrollable>
   </nt-card>
 </template>

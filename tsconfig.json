@@ -8,31 +8,11 @@
     "jsx": "preserve",
     // "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": [
-      "ESNext",
-      "DOM",
-      "WebWorker"
-    ],
+    "lib": ["ESNext", "DOM", "WebWorker"],
     "skipLibCheck": true,
     "noEmit": true,
-    "types": [
-      "pxd/volar",
-      "vite-plugin-pwa/client",
-      "./functions/type.d.ts"
-    ]
+    "types": ["pxd/volar", "vite-plugin-pwa/client", "./functions/type.d.ts"]
   },
-  "include": [
-    "src/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "public/sw.ts",
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "test",
-    "functions/**/*"
-  ]
+  "include": ["src/*.d.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "public/sw.ts"],
+  "exclude": ["dist", "node_modules", "test", "functions/**/*"]
 }

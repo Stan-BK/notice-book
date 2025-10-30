@@ -25,27 +25,27 @@ export default defineConfig(({ mode }) => {
             {
               src: 'notice-192x192.png',
               sizes: '192x192',
-              type: 'image/png'
-            },
-            {
-              src: 'notice-512x512.png',
-              sizes: '512x512',
-              type: 'image/png'
+              type: 'image/png',
             },
             {
               src: 'notice-512x512.png',
               sizes: '512x512',
               type: 'image/png',
-              purpose: 'any maskable'
-            }
-          ]
+            },
+            {
+              src: 'notice-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable',
+            },
+          ],
         },
-      // devOptions: {
-      //   enabled: true,
-      //   type: 'module',
-      //   navigateFallback: 'index.html'
-      // }
-      })
+        // devOptions: {
+        //   enabled: true,
+        //   type: 'module',
+        //   navigateFallback: 'index.html'
+        // }
+      }),
     ],
   }
 })

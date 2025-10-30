@@ -28,8 +28,8 @@ self.addEventListener('push', (event) => {
       self.registration.showNotification(noticeName, {
         body: description,
         // @ts-ignore
-        vibrate: [200, 100, 200]
-      })
+        vibrate: [200, 100, 200],
+      }),
     )
   }
 })
@@ -41,9 +41,9 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'get_endpoint') {
     event.source!.postMessage({
       type: 'get_endpoint',
-      endpoint
+      endpoint,
     })
   }
 })
 
-export { }
+export {}

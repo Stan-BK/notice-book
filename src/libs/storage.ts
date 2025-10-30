@@ -12,7 +12,7 @@ export function setStorage() {
       todoList: toValue(todoList),
       ydayList: toValue(ydayList),
       tmrList: toValue(tmrList),
-    })
+    }),
   )
 }
 

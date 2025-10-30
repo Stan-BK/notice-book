@@ -12,10 +12,7 @@ import { useMediaQuery, PRESET_MEDIA_QUERIES } from 'pxd/composables/use-media-q
 
 const isVisible = ref(false)
 // 延迟更新加载状态, 避免持续时间过短出现状态闪烁
-const {
-  value: isLoading,
-  setValue: setLoading,
-} = useDelayChange(false)
+const { value: isLoading, setValue: setLoading } = useDelayChange(false)
 
 const isSmUp = useMediaQuery(PRESET_MEDIA_QUERIES.SM_UP)
 
@@ -24,13 +21,13 @@ let changeStatusResolver: ((value: boolean | PromiseLike<boolean>) => void) | nu
 const installMessages = computed(() => {
   return isInstalled.value
     ? {
-      topStatus: 'Actived',
-      modalMsg: 'Do u want to Unsubscribe offline push?'
-    }
+        topStatus: 'Actived',
+        modalMsg: 'Do u want to Unsubscribe offline push?',
+      }
     : {
-      topStatus: 'Inactived',
-      modalMsg: 'Do u want to Subscribe offline push?'
-    }
+        topStatus: 'Inactived',
+        modalMsg: 'Do u want to Subscribe offline push?',
+      }
 })
 
 async function init() {
@@ -62,12 +59,11 @@ function handleClose() {
 }
 
 function tryReload() {
-  if (confirm('Do you want to refresh the app?'))
-    location.reload()
+  if (confirm('Do you want to refresh the app?')) location.reload()
 }
 
 function onBeforeChangeStatus() {
-  return new Promise<boolean>(resolve => {
+  return new Promise<boolean>((resolve) => {
     changeStatusResolver = resolve
     isVisible.value = true
   })
@@ -100,42 +96,23 @@ onMounted(async () => {
         :before-change="onBeforeChangeStatus"
       />
 
-      <PThemeSwitcher
-        size="xs"
-        variant="ghost"
-      />
+      <PThemeSwitcher size="xs" variant="ghost" />
 
-      <PLinkButton
-        icon
-        size="xs"
-        align="center"
-        variant="ghost"
-        href="https://github.com/Stan-BK/notice-book-repo"
-        target="_blank"
-      >
+      <PLinkButton icon size="xs" align="center" variant="ghost" href="https://github.com/Stan-BK/notice-book-repo" target="_blank">
         <LogoGithubSmallIcon />
       </PLinkButton>
 
-      <PButton
-        icon
-        size="xs"
-        align="center"
-        variant="ghost"
-        @click="tryReload"
-      >
+      <PButton icon size="xs" align="center" variant="ghost" @click="tryReload">
         <RefreshClockwiseIcon />
       </PButton>
     </header>
 
-    <PScrollable
-      class="page flex-1 flex mt-2"
-      content-class="flex gap-4 p-px flex-col sm:flex-row"
-    >
+    <PScrollable class="page flex-1 flex mt-2" content-class="flex gap-4 p-px flex-col sm:flex-row">
       <todo-list />
 
       <Component
         :is="isSmUp ? 'PScrollable' : 'div'"
-        style="height: calc(100vh - 70px);"
+        style="height: calc(100vh - 70px)"
         class="day-list-wrap flex-1"
         content-class="flex-1"
       >
@@ -156,20 +133,9 @@ onMounted(async () => {
       close-on-click-overlay
     >
       <template #footer>
-        <PButton
-          :disabled="isLoading"
-          @click="handleClose"
-        >
-          Cancel
-        </PButton>
+        <PButton :disabled="isLoading" @click="handleClose"> Cancel </PButton>
 
-        <PButton
-          variant="primary"
-          :loading="isLoading"
-          @click="handleConfirm"
-        >
-          Confirm
-        </PButton>
+        <PButton variant="primary" :loading="isLoading" @click="handleConfirm"> Confirm </PButton>
       </template>
     </PModal>
   </div>
