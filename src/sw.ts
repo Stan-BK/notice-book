@@ -1,7 +1,7 @@
+import type { NoticeType } from './libs/data'
+import { clientsClaim } from 'workbox-core'
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { clientsClaim } from 'workbox-core'
-import { NoticeType } from './libs/data'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -27,7 +27,7 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
       self.registration.showNotification(noticeName, {
         body: description,
-        // @ts-ignore
+        // @ts-expect-error let it pass
         vibrate: [200, 100, 200],
       }),
     )

@@ -1,6 +1,6 @@
+import type { NoticeListCollection } from './initData'
 import { toValue } from 'vue'
-import { todayList, todoList, ydayList, tmrList } from './data'
-import { NoticeListCollection } from './initData'
+import { tmrList, todayList, todoList, ydayList } from './data'
 
 const storageKey = 'noticeList'
 

@@ -1,14 +1,14 @@
 <script setup lang="tsx">
-import { isInstalled, initServiceWorker, unsubscribe, checkSubscription, initData, initNotification, updateAllNoticeList } from './libs'
-import TodayList from './components/TodayList.vue'
-import TmrList from './components/TmrList.vue'
-import TodoList from './components/TodoList.vue'
-import YdayList from './components/YdayList.vue'
-import { onMounted, computed, ref } from 'vue'
-import { useMessage, useDelayChange } from 'pxd'
 import LogoGithubSmallIcon from '@gdsicon/vue/logo-github-small'
 import RefreshClockwiseIcon from '@gdsicon/vue/refresh-clockwise'
-import { useMediaQuery, PRESET_MEDIA_QUERIES } from 'pxd/composables/use-media-query'
+import { useDelayChange, useMessage } from 'pxd'
+import { PRESET_MEDIA_QUERIES, useMediaQuery } from 'pxd/composables/use-media-query'
+import { computed, onMounted, ref } from 'vue'
+import TmrList from './components/TmrList.vue'
+import TodayList from './components/TodayList.vue'
+import TodoList from './components/TodoList.vue'
+import YdayList from './components/YdayList.vue'
+import { checkSubscription, initData, initNotification, initServiceWorker, isInstalled, unsubscribe, updateAllNoticeList } from './libs'
 
 const isVisible = ref(false)
 // 延迟更新加载状态, 避免持续时间过短出现状态闪烁
@@ -41,14 +41,17 @@ async function handleConfirm() {
     if (!isInstalled.value) {
       await initServiceWorker()
       updateAllNoticeList()
-    } else {
+    }
+    else {
       await unsubscribe()
     }
     handleClose()
     changeStatusResolver?.(isInstalled.value)
-  } catch (e: any) {
+  }
+  catch (e: any) {
     useMessage(e.message, { type: 'error' })
-  } finally {
+  }
+  finally {
     setLoading(false, true)
     changeStatusResolver = null
   }
@@ -59,7 +62,9 @@ function handleClose() {
 }
 
 function tryReload() {
-  if (confirm('Do you want to refresh the app?')) location.reload()
+  // eslint-disable-next-line no-alert
+  if (confirm('Do you want to refresh the app?'))
+    location.reload()
 }
 
 function onBeforeChangeStatus() {
@@ -108,7 +113,7 @@ onMounted(async () => {
     </header>
 
     <PScrollable class="page flex-1 flex mt-2" content-class="flex gap-4 p-px flex-col sm:flex-row">
-      <todo-list />
+      <TodoList />
 
       <Component
         :is="isSmUp ? 'PScrollable' : 'div'"
@@ -117,9 +122,9 @@ onMounted(async () => {
         content-class="flex-1"
       >
         <PStack class="p-px">
-          <tmr-list />
-          <today-list />
-          <yday-list />
+          <TmrList />
+          <TodayList />
+          <YdayList />
         </PStack>
       </Component>
     </PScrollable>
@@ -133,9 +138,13 @@ onMounted(async () => {
       close-on-click-overlay
     >
       <template #footer>
-        <PButton :disabled="isLoading" @click="handleClose"> Cancel </PButton>
+        <PButton :disabled="isLoading" @click="handleClose">
+          Cancel
+        </PButton>
 
-        <PButton variant="primary" :loading="isLoading" @click="handleConfirm"> Confirm </PButton>
+        <PButton variant="primary" :loading="isLoading" @click="handleConfirm">
+          Confirm
+        </PButton>
       </template>
     </PModal>
   </div>

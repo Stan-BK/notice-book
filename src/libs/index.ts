@@ -1,14 +1,16 @@
-import { NoticeType, todoList } from './data'
-export * from './initData'
-export * from './subscription'
-export * from './notification'
+import type { NoticeType } from './data'
+import { todoList } from './data'
+
 export * from './data'
+export * from './initData'
+export * from './notification'
+export * from './subscription'
 
 export function toggleItems(targetList: NoticeType[]) {
   const todoChosenList = todoList.reduce((prev: NoticeType[], cur) => (cur.isChosen ? prev.concat(cur) : prev), [])
   const targetChosenList = targetList.reduce((prev: NoticeType[], cur) => (cur.isChosen ? prev.concat(cur) : prev), [])
 
-  for (let i = 0; i < todoList.length; ) {
+  for (let i = 0; i < todoList.length;) {
     if (todoList[i].isChosen) {
       todoList.splice(i, 1)
       continue
@@ -16,7 +18,7 @@ export function toggleItems(targetList: NoticeType[]) {
     i++
   }
 
-  for (let i = 0; i < targetList.length; ) {
+  for (let i = 0; i < targetList.length;) {
     if (targetList[i].isChosen) {
       targetList.splice(i, 1)
       continue

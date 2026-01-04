@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import MinusIcon from '@gdsicon/vue/minus'
+import PlusIcon from '@gdsicon/vue/plus'
+import { todoList } from '../libs'
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { todoList } from '../libs'
-import PlusIcon from '@gdsicon/vue/plus'
-import MinusIcon from '@gdsicon/vue/minus'
 
 function addNotice() {
   todoList.push({
@@ -17,10 +17,11 @@ function addNotice() {
 }
 
 function removeNotice() {
-  for (let i = 0; i < todoList.length; ) {
+  for (let i = 0; i < todoList.length;) {
     if (todoList[i].isChosen) {
       todoList.splice(i, 1)
-    } else {
+    }
+    else {
       i++
     }
   }
@@ -28,8 +29,10 @@ function removeNotice() {
 </script>
 
 <template>
-  <nt-card class="todo-list h-full">
-    <template #title> Todo List </template>
+  <NtCard class="todo-list h-full">
+    <template #title>
+      Todo List
+    </template>
 
     <template #control-bar>
       <div class="flex items-center gap-2">
@@ -44,9 +47,9 @@ function removeNotice() {
     </template>
 
     <PScrollable class="w-full">
-      <nt-list v-model="todoList" />
+      <NtList v-model="todoList" />
     </PScrollable>
-  </nt-card>
+  </NtCard>
 </template>
 
 <style scoped lang="less">
