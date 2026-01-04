@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { NoticeType } from '../libs/data.js'
-import { computed, defineModel } from 'vue'
+import { computed } from 'vue'
 
 defineProps<{
   hasRepeatProp?: boolean
@@ -38,7 +38,7 @@ const noticeTime = computed({
       </template>
     </PPopover>
 
-    <PTimePicker v-model="noticeTime" style="width: 82px" :prefix-icon="false" />
+    <PTimePicker v-model="noticeTime" style="width: 88px" format="HH:mm" value-format="HH:mm:00" />
   </li>
 </template>
 

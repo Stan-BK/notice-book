@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { toggleItems, ydayList } from '../libs'
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { ydayList, toggleItems } from '../libs'
 </script>
 
 <template>
-  <nt-card :is-need-port="true" class="YdayList" @toggle="() => toggleItems(ydayList)">
-    <template #title> Y'day </template>
+  <NtCard :is-need-port="true" class="YdayList" @toggle="() => toggleItems(ydayList)">
+    <template #title>
+      Y'day
+    </template>
 
     <PScrollable class="w-full">
-      <nt-list v-model="ydayList" />
+      <NtList v-model="ydayList" />
     </PScrollable>
-  </nt-card>
+  </NtCard>
 </template>
 
 <style scoped>

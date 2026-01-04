@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { tmrList, toggleItems } from '../libs'
 import NtCard from './NtCard.vue'
 import NtList from './NtList.vue'
-import { tmrList, toggleItems } from '../libs'
 </script>
 
 <template>
-  <nt-card :is-need-port="true" class="TmrList" @toggle="() => toggleItems(tmrList)">
-    <template #title> Tomorrow </template>
+  <NtCard :is-need-port="true" class="TmrList" @toggle="() => toggleItems(tmrList)">
+    <template #title>
+      Tomorrow
+    </template>
 
     <PScrollable class="w-full">
-      <nt-list v-model="tmrList" />
+      <NtList v-model="tmrList" />
     </PScrollable>
-  </nt-card>
+  </NtCard>
 </template>
 
 <style scoped>

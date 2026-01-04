@@ -1,9 +1,10 @@
-import { endpoint, getSubscriptionPath, isInstalled } from '.'
-import { todoList, todayList, ydayList, tmrList, NoticeType } from './data'
+import type { NoticeType } from './data'
 import { watch } from 'vue'
+import { endpoint, getSubscriptionPath, isInstalled } from '.'
+import { tmrList, todayList, todoList, ydayList } from './data'
 import { loadFromStorage, setStorage } from './storage'
 
-export type NoticeListCollection = {
+export interface NoticeListCollection {
   todayList: NoticeType[]
   todoList: NoticeType[]
   ydayList: NoticeType[]
@@ -33,13 +34,13 @@ function initFromStorage() {
 async function initFromServer() {
   const [todoList, todayList, ydayList, tmrList] = await Promise.all(
     noticeLists.map(
-      async (list) =>
+      async list =>
         (await fetch(`${await getSubscriptionPath()}/noticeList?type=${noticePool.get(list)}`, {
           method: 'POST',
           body: JSON.stringify({
             endPoint: endpoint,
           }),
-        }).then((res) => res.json())) as NoticeType[],
+        }).then(res => res.json())) as NoticeType[],
     ),
   )
   initDataList({
@@ -90,7 +91,8 @@ export async function initDataList({ todayList: todayL, tmrList: tmrL, todoList:
 export async function initData() {
   if (isInstalled.value) {
     await initFromServer()
-  } else {
+  }
+  else {
     initFromStorage()
   }
 }

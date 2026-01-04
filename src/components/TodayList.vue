@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import NtCard from './NtCard.vue'
-import NtList from './NtList.vue'
-import { getTimeRange, isInstalled, todayList, toggleItems } from '../libs'
 import SettingsGearIcon from '@gdsicon/vue/settings-gear'
-import { computed, onUnmounted, ref } from 'vue'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import { computed, onUnmounted, ref } from 'vue'
+import { getTimeRange, isInstalled, todayList, toggleItems } from '../libs'
+import NtCard from './NtCard.vue'
+import NtList from './NtList.vue'
+
 dayjs.extend(isBetween)
 
 let intervalId: number | null = null
@@ -21,7 +22,8 @@ getTimeRange().then((range) => {
       timeRange.value = [dayjs(startOfDayVal + range[0]), dayjs(startOfDayVal + range[1])]
       if (dayjs().isBetween(timeRange.value[0], timeRange.value[1])) {
         isInTimeRange.value = true
-      } else {
+      }
+      else {
         isInTimeRange.value = false
       }
     }, 1000)
@@ -36,10 +38,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nt-card :is-need-port="true" class="today-list" @toggle="() => toggleItems(todayList)">
+  <NtCard :is-need-port="true" class="today-list" @toggle="() => toggleItems(todayList)">
     <template #title>
       Today
-      <settings-gear-icon :class="isActive && 'scroll'" style="font-size: 14px" />
+      <SettingsGearIcon :class="isActive && 'scroll'" style="font-size: 14px" />
       <span
         class="remark"
         :style="{
@@ -52,9 +54,9 @@ onUnmounted(() => {
     </template>
 
     <PScrollable class="w-full">
-      <nt-list v-model="todayList" :has-repeat-prop="true" />
+      <NtList v-model="todayList" :has-repeat-prop="true" />
     </PScrollable>
-  </nt-card>
+  </NtCard>
 </template>
 
 <style scoped>

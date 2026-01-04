@@ -1,33 +1,27 @@
 {
   "name": "vite-project",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint --ext .ts,.vue src",
-    "lint:fix": "eslint --ext .ts,.vue src --fix",
-    "prettier": "prettier --write ."
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "less": "^4.1.3",
-    "pxd": "^0.0.43",
+    "pxd": "^0.0.47",
     "vue": "^3.5.0",
     "workbox-core": "^7.0.0",
     "workbox-window": "^7.0.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^6.7.3",
     "@types/node": "^24.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
     "@vitejs/plugin-vue": "^6.0.0",
-    "eslint": "^8.29.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-vue": "^9.8.0",
-    "prettier": "^3.6.2",
+    "eslint": "^9.39.2",
     "typescript": "^5.9.2",
     "vite": "^6.0.0",
     "vite-plugin-pwa": "^1.0.2",

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { NoticeType } from '../libs'
+import type { NoticeType } from '../libs'
 import NtItem from './NtItem.vue'
-import { defineModel } from 'vue'
 
 defineProps<{
   hasRepeatProp?: boolean
