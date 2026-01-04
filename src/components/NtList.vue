@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { NoticeType } from '../libs'
-import { defineModel } from 'vue'
 import NtItem from './NtItem.vue'
 
 defineProps<{
