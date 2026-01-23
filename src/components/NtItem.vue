@@ -10,6 +10,33 @@ const noticeData = defineModel<NoticeType>({
   default: () => ({}) as NoticeType,
 })
 
+const presets = [
+  {
+    label: '15m later',
+    getDate: () => {
+      const date = new Date()
+      date.setMinutes(date.getMinutes() + 30)
+      return date
+    },
+  },
+  {
+    label: '30m later',
+    getDate: () => {
+      const date = new Date()
+      date.setMinutes(date.getMinutes() + 30)
+      return date
+    },
+  },
+  {
+    label: '1h later',
+    getDate: () => {
+      const date = new Date()
+      date.setHours(date.getHours() + 1)
+      return date
+    },
+  },
+]
+
 const noticeTime = computed({
   get() {
     return `${noticeData.value.hour}:${noticeData.value.minute}:00`
@@ -38,7 +65,7 @@ const noticeTime = computed({
       </template>
     </PPopover>
 
-    <PTimePicker v-model="noticeTime" style="width: 88px" format="HH:mm" value-format="HH:mm:00" />
+    <PTimePicker v-model="noticeTime" :presets="presets" style="width: 88px" format="HH:mm" :show-seconds="false" />
   </li>
 </template>
 
