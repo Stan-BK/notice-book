@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { NoticeType } from '../libs/data.js';
-import { computed } from 'vue';
+import type { NoticeType } from '../libs/data.js'
+import { computed } from 'vue'
 
 defineProps<{
   hasRepeatProp?: boolean
