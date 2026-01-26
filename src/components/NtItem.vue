@@ -15,7 +15,7 @@ const presets = [
     label: '15m later',
     getDate: () => {
       const date = new Date()
-      date.setMinutes(date.getMinutes() + 30)
+      date.setMinutes(date.getMinutes() + 15)
       return date
     },
   },

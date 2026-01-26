@@ -96,8 +96,8 @@ onMounted(async () => {
         :loading="isLoading"
         active-label="Actived"
         inactive-label="Inactived"
-        active-color="hsl(var(--color-green-600-value))"
-        inactive-color="hsl(var(--color-red-600-value))"
+        active-color="hsl(var(--color-green-700-value))"
+        inactive-color="hsl(var(--color-red-700-value))"
         :before-change="onBeforeChangeStatus"
       />
 
